@@ -1467,45 +1467,193 @@
         </div>
 
         <!-- SLIDE 6: Performance Categories -->
-        <div class="slide" id="slide-6">
-            <h2 class="slide-title"><span class="title-icon">🔍</span>فئات الأداء — تحليل المستويات</h2>
-            <div class="perf-grid">
-                <div class="perf-card high">
-                    <div class="pf-icon">🌟</div>
-                    <h3>الأعلى أداءً (فوق 50%)</h3>
-                    <p class="pf-desc">تميزت بالدورات التخصصية وارتباط قوي بالشهادات الدولية والمقررات.</p>
-                    <div class="pf-list">
-                        طب الأسنان — 93% (27 طالبة)<br>
-                        الهندسة — 82% (103 طالبة)<br>
-                        علوم الرياضة — 65% (80 طالبة)
-                    </div>
-                </div>
-                <div class="perf-card mid">
-                    <div class="pf-icon">📈</div>
-                    <h3>أداء متوسط (15%–50%)</h3>
-                    <p class="pf-desc">نسب جيدة مع شهادات تقنية، تحتاج لزيادة الدعم والمبادرات.</p>
-                    <div class="pf-list">
-                        العلوم — 34% (148 طالبة)<br>
-                        علوم الحاسب — 30% (188 طالبة)<br>
-                        التربية — 28% (69 طالبة)<br>
-                        إدارة الأعمال — 23% (140 طالبة)
-                    </div>
-                </div>
-                <div class="perf-card low">
-                    <div class="pf-icon">⚠️</div>
-                    <h3>الأقل أداءً (أقل من 5%)</h3>
-                    <p class="pf-desc">تحتاج إلى تدخل ودعم مؤسسي عاجل وتكامل مع الجهات المهنية.</p>
-                    <div class="pf-list">
-                        التطبيقية و التصاميم — 5%<br>
-                        الصيدلة — 4%<br>
-                        اللغات / التمريض / الإنسانية / الصحة — 2%<br>
-                        القانون — 1% | الطب البشري — 0%
-                    </div>
-                </div>
-            </div>
-        </div>
+        <div class="slide" id="slide-6" style="padding: 28px 40px 20px;">
+            <h2 class="slide-title"><span class="title-icon">🔍</span>فئات الأداء — نسب الكليات بالشهادات المهنية</h2>
 
-        <!-- SLIDE 7: Table 3 — Certs Visual Dashboard -->
+            <style>
+            #s6wrap {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 20px;
+                margin-top: 10px;
+                direction: rtl;
+            }
+            .s6box {
+                background: #fff;
+                border-radius: 20px;
+                padding: 18px 14px 14px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 12px;
+                box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+            }
+            .s6box-title {
+                font-family: Cairo, sans-serif;
+                font-size: 12px;
+                font-weight: 800;
+                padding: 5px 16px;
+                border-radius: 30px;
+                letter-spacing: 0.2px;
+                text-align: center;
+                width: 100%;
+            }
+            .s6legend {
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                gap: 5px;
+            }
+            .s6leg-row {
+                display: flex;
+                align-items: center;
+                gap: 7px;
+                font-family: Cairo, sans-serif;
+                font-size: 10.5px;
+                color: #4b5563;
+                direction: rtl;
+                padding: 3px 6px;
+                border-radius: 8px;
+            }
+            .s6leg-row:hover { background: #f8fafc; }
+            .s6leg-dot {
+                width: 9px; height: 9px;
+                border-radius: 50%;
+                flex-shrink: 0;
+            }
+            .s6leg-name { flex: 1; font-weight: 600; text-align: right; }
+            .s6leg-bar-wrap {
+                width: 48px; height: 5px;
+                background: #f1f5f9;
+                border-radius: 10px;
+                overflow: hidden;
+                flex-shrink: 0;
+            }
+            .s6leg-bar { height: 100%; border-radius: 10px; }
+            .s6leg-pct { font-weight: 800; font-size: 10px; min-width: 28px; text-align: left; }
+            </style>
+
+            <div id="s6wrap"></div>
+
+            <script>
+            (function(){
+                var CATS = [
+                    {
+                        label: "🌟 الأعلى أداءً — فوق 50%",
+                        titleColor: "#065f46",
+                        titleBg: "#ecfdf5",
+                        titleBorder: "#6ee7b7",
+                        centerColor: "#059669",
+                        colleges: [
+                            { name: "طب الأسنان",   pct: 93 },
+                            { name: "الهندسة",       pct: 82 },
+                            { name: "علوم الرياضة", pct: 65 },
+                        ],
+                        palette: ["#34d399","#6ee7b7","#a7f3d0"]
+                    },
+                    {
+                        label: "📈 أداء متوسط — 15% إلى 50%",
+                        titleColor: "#78350f",
+                        titleBg: "#fffbeb",
+                        titleBorder: "#fcd34d",
+                        centerColor: "#d97706",
+                        colleges: [
+                            { name: "العلوم",         pct: 34 },
+                            { name: "علوم الحاسب",    pct: 30 },
+                            { name: "التربية",         pct: 28 },
+                            { name: "إدارة الأعمال",  pct: 23 },
+                        ],
+                        palette: ["#fbbf24","#fcd34d","#fde68a","#fef3c7"]
+                    },
+                    {
+                        label: "⚠️ الأقل أداءً — أقل من 15%",
+                        titleColor: "#7f1d1d",
+                        titleBg: "#fff5f5",
+                        titleBorder: "#fca5a5",
+                        centerColor: "#dc2626",
+                        colleges: [
+                            { name: "التطبيقية",   pct: 5 },
+                            { name: "التصاميم",    pct: 5 },
+                            { name: "الصيدلة",     pct: 4 },
+                            { name: "اللغات",      pct: 2 },
+                            { name: "التمريض",     pct: 2 },
+                            { name: "الإنسانية",   pct: 2 },
+                            { name: "الصحة العامة",pct: 2 },
+                            { name: "القانون",     pct: 1 },
+                            { name: "الطب البشري", pct: 0 },
+                        ],
+                        palette: ["#f87171","#fca5a5","#fecaca","#fed7aa","#fdba74","#fb923c","#f97316","#ef4444","#e5e7eb"]
+                    }
+                ];
+
+                var maxPct = 93; // for bar scaling
+
+                var wrap = document.getElementById("s6wrap");
+
+                CATS.forEach(function(cat) {
+                    /* ---- donut SVG ---- */
+                    var R=70, SW=22, CX=88, CY=88, SZ=176;
+                    var circ = 2 * Math.PI * R;
+                    var total = cat.colleges.reduce(function(s,c){
+                        return s + Math.max(c.pct, 0.6);
+                    }, 0);
+                    var GAP = 3;
+                    var segs = "";
+                    var off  = 0;
+
+                    cat.colleges.forEach(function(c, i) {
+                        var share = (Math.max(c.pct, 0.6) / total) * circ;
+                        var draw  = Math.max(share - GAP, 1);
+                        var dashOff = -(off) + circ / 4;
+                        segs += '<circle cx="'+CX+'" cy="'+CY+'" r="'+R+'"'
+                            +' fill="none"'
+                            +' stroke="'+cat.palette[i % cat.palette.length]+'"'
+                            +' stroke-width="'+SW+'"'
+                            +' stroke-dasharray="'+draw.toFixed(2)+' '+(circ-draw).toFixed(2)+'"'
+                            +' stroke-dashoffset="'+dashOff.toFixed(2)+'"'
+                            +' stroke-linecap="butt"/>';
+                        off += share;
+                    });
+
+                    var svg = '<svg width="'+SZ+'" height="'+SZ+'" viewBox="0 0 '+SZ+' '+SZ+'">'
+                        +'<circle cx="'+CX+'" cy="'+CY+'" r="'+R+'" fill="none" stroke="#f0f4f8" stroke-width="'+SW+'"/>'
+                        + segs
+                        +'<text x="'+CX+'" y="'+(CY-8)+'" text-anchor="middle" font-size="26" font-weight="900"'
+                        +' fill="'+cat.centerColor+'" font-family="Cairo,sans-serif">'+cat.colleges.length+'</text>'
+                        +'<text x="'+CX+'" y="'+(CY+14)+'" text-anchor="middle" font-size="11" fill="#9ca3af"'
+                        +' font-family="Cairo,sans-serif">كلية</text>'
+                        +'</svg>';
+
+                    /* ---- legend rows ---- */
+                    var legHtml = cat.colleges.map(function(c, i) {
+                        var barW = Math.round((c.pct / maxPct) * 100);
+                        return '<div class="s6leg-row">'
+                            +'<span class="s6leg-dot" style="background:'+cat.palette[i%cat.palette.length]+'"></span>'
+                            +'<span class="s6leg-name">'+c.name+'</span>'
+                            +'<div class="s6leg-bar-wrap"><div class="s6leg-bar"'
+                            +' style="width:'+barW+'%;background:'+cat.palette[i%cat.palette.length]+'"></div></div>'
+                            +'<span class="s6leg-pct" style="color:'+cat.centerColor+'">'+c.pct+'%</span>'
+                            +'</div>';
+                    }).join("");
+
+                    /* ---- card ---- */
+                    var box = document.createElement("div");
+                    box.className = "s6box";
+                    box.style.border = "1.5px solid "+cat.titleBorder;
+                    box.innerHTML =
+                        '<div class="s6box-title" style="'
+                            +'color:'+cat.titleColor+';'
+                            +'background:'+cat.titleBg+';'
+                            +'border:1px solid '+cat.titleBorder+'">'
+                            +cat.label+'</div>'
+                        + svg
+                        +'<div class="s6legend">'+legHtml+'</div>';
+                    wrap.appendChild(box);
+                });
+            })();
+            </script>
+        </div>
+                <!-- SLIDE 7: Table 3 — Certs Visual Dashboard -->
         <div class="slide" id="slide-7" style="padding: 28px 38px;">
             <h2 class="slide-title" style="margin-bottom: 18px;"><span class="title-icon">📊</span>الشهادات المهنية الاحترافية حسب الكليات</h2>
 
@@ -2383,7 +2531,7 @@
         <!-- SLIDE 19: Closing -->
         <div class="closing-slide" id="slide-18">
             <h1 style="font-size:2.8rem;">شكرًا لكم</h1>
-            <p style="font-size:1.15rem; margin-bottom:24px;">وكالة الجامعة للشؤون الأكاديمية</p>
+            <p style="font-size:1.15rem; margin-bottom:24px;">وكالة الشؤون التعليمية</p>
             <div class="closing-quote">"استثمار في الكفاءات الوطنية.. لمستقبل مهني واعد"</div>
         </div>
 

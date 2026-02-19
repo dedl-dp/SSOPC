@@ -1,0 +1,2487 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مشروع الشهادات المهنية - جامعة الأميرة نورة</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=IBM+Plex+Sans+Arabic:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --green: #0a7c6e;
+            --green-mid: #0d9b8a;
+            --green-light: #12bfaa;
+            --gold: #15A186;
+            --gold-light: #5ecfba;
+            --cream: #faf8f4;
+            --dark: #0e2a26;
+            --text: #1e3530;
+            --muted: #5a7872;
+            --white: #ffffff;
+            --red-soft: #c0392b;
+            --amber: #0d8a70;
+            --border: #cce8e4;
+            --slide-bg: #f4faf9;
+            --teal-bright: #1ab5a0;
+            --teal-dark: #086e62;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Cairo', 'IBM Plex Sans Arabic', sans-serif;
+            background: linear-gradient(135deg, #062520 0%, #0a3d36 40%, #062520 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .outer-shell {
+            width: 100%;
+            max-width: 1140px;
+            background: #072420;
+            border-radius: 20px;
+            box-shadow: 0 40px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(21,161,134,0.25);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ===== TOP BAR ===== */
+        .top-bar {
+            background: linear-gradient(90deg, #086e62 0%, #0a9b88 60%, #12bfaa 100%);
+            padding: 14px 36px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 3px solid var(--gold);
+            flex-shrink: 0;
+        }
+
+        .top-bar .brand {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .brand-icon {
+            width: 42px;
+            height: 42px;
+            background: rgba(21,161,134,0.2);
+            border: 2px solid var(--gold);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+        }
+
+        .brand-text .university {
+            color: var(--white);
+            font-weight: 700;
+            font-size: 1rem;
+            line-height: 1.2;
+        }
+
+        .brand-text .dept {
+            color: #ffffff;
+            font-size: 0.72rem;
+            font-weight: 400;
+            opacity: 0.9;
+        }
+
+        .slide-counter {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(21,161,134,0.5);
+            border-radius: 20px;
+            padding: 5px 16px;
+            color: #5ecfba;
+            font-size: 0.85rem;
+            font-weight: 600;
+            font-family: 'Cairo', monospace;
+            letter-spacing: 1px;
+        }
+
+        /* ===== SLIDE AREA ===== */
+        .slide-area {
+            flex: 1;
+            min-height: 520px;
+            background: var(--slide-bg);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slide {
+            display: none;
+            padding: 40px 48px;
+            min-height: 520px;
+            animation: slideIn 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        .slide.active { display: block; }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ===== SLIDE HEADER ===== */
+        .slide-title {
+            font-size: 1.6rem;
+            font-weight: 900;
+            color: var(--green);
+            margin-bottom: 28px;
+            padding-bottom: 14px;
+            border-bottom: 2px solid var(--border);
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .slide-title::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            right: 0;
+            width: 72px;
+            height: 2px;
+            background: var(--gold);
+        }
+
+        .slide-title .title-icon {
+            background: linear-gradient(135deg, var(--green), var(--green-mid));
+            color: white;
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        /* ===== COVER SLIDE ===== */
+        .cover-slide {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 520px;
+            text-align: center;
+            background: linear-gradient(160deg, #054d44 0%, #0a7c6e 50%, #054d44 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cover-slide.active { display: flex; }
+
+        .cover-slide::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 70% 30%, rgba(192,148,68,0.12) 0%, transparent 60%),
+                        radial-gradient(circle at 20% 80%, rgba(0,168,142,0.1) 0%, transparent 50%);
+        }
+
+        .cover-slide .cover-inner {
+            position: relative;
+            z-index: 1;
+            max-width: 700px;
+            padding: 20px;
+        }
+
+        .cover-badge {
+            display: inline-block;
+            background: rgba(21,161,134,0.2);
+            border: 1px solid rgba(21,161,134,0.5);
+            color: #5ecfba;
+            font-size: 0.8rem;
+            font-weight: 600;
+            padding: 5px 18px;
+            border-radius: 20px;
+            margin-bottom: 22px;
+            letter-spacing: 1px;
+        }
+
+        .cover-title {
+            font-size: 2.2rem;
+            font-weight: 900;
+            color: white;
+            line-height: 1.3;
+            margin-bottom: 18px;
+        }
+
+        .cover-title span { color: #5ecfba; }
+
+        .cover-subtitle {
+            font-size: 1.1rem;
+            color: rgba(255,255,255,0.75);
+            margin-bottom: 36px;
+            font-weight: 300;
+        }
+
+        .cover-stats {
+            display: flex;
+            justify-content: center;
+            gap: 36px;
+        }
+
+        .cover-stat {
+            text-align: center;
+        }
+
+        .cover-stat .num {
+            font-size: 2rem;
+            font-weight: 900;
+            color: #5ecfba;
+            line-height: 1;
+        }
+
+        .cover-stat .lbl {
+            font-size: 0.78rem;
+            color: rgba(255,255,255,0.65);
+            margin-top: 4px;
+        }
+
+        .cover-divider {
+            width: 1px;
+            background: rgba(255,255,255,0.2);
+            align-self: stretch;
+        }
+
+        /* ===== CARDS ===== */
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+        .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+
+        .card {
+            background: white;
+            border-radius: 14px;
+            padding: 20px 22px;
+            border: 1px solid var(--border);
+            border-right: 4px solid var(--green);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .card.gold-accent { border-right-color: var(--gold); }
+        .card.red-accent { border-right-color: var(--red-soft); }
+
+        .card h3 {
+            color: var(--green);
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .card p, .card li { font-size: 0.88rem; color: var(--text); line-height: 1.65; }
+        .card ul { padding-right: 16px; }
+
+        /* ===== STAT BOXES ===== */
+        .stat-box {
+            background: white;
+            border-radius: 14px;
+            padding: 22px;
+            border: 1px solid var(--border);
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .stat-box .icon {
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+        }
+
+        .stat-box .value {
+            font-size: 2.2rem;
+            font-weight: 900;
+            color: var(--green);
+            line-height: 1;
+        }
+
+        .stat-box .unit {
+            font-size: 0.9rem;
+            color: var(--muted);
+            margin-top: 2px;
+        }
+
+        .stat-box .label {
+            font-size: 0.8rem;
+            color: var(--muted);
+            margin-top: 6px;
+        }
+
+        /* ===== BAR CHART ===== */
+        .bar-chart { display: flex; flex-direction: column; gap: 7px; }
+        
+        .bar-row {
+            display: grid;
+            grid-template-columns: 170px 1fr 52px;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .bar-label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text);
+            text-align: right;
+        }
+
+        .bar-track {
+            height: 22px;
+            background: #e8eeec;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .bar-fill {
+            height: 100%;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            padding-right: 8px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: white;
+            transition: width 1.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        .bar-pct {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--green);
+            text-align: left;
+        }
+
+        .bar-fill.high { background: linear-gradient(90deg, #005b4e, #00a88e); }
+        .bar-fill.mid  { background: linear-gradient(90deg, #d4820a, #f0a830); }
+        .bar-fill.low  { background: linear-gradient(90deg, #c0392b, #e05040); }
+
+        /* ===== DONUT CHART ===== */
+        .donut-section {
+            display: flex;
+            align-items: center;
+            gap: 48px;
+            padding: 10px 0;
+        }
+
+        .donut-wrap {
+            position: relative;
+            width: 180px;
+            height: 180px;
+            flex-shrink: 0;
+        }
+
+        .donut-wrap svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+
+        .donut-center {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            color: var(--green);
+        }
+
+        .donut-center .big { font-size: 1.9rem; line-height: 1; }
+        .donut-center .small { font-size: 0.72rem; color: var(--muted); }
+
+        .donut-legend .legend-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .legend-dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .legend-info .val {
+            font-size: 1.4rem;
+            font-weight: 900;
+            line-height: 1;
+        }
+
+        .legend-info .desc {
+            font-size: 0.8rem;
+            color: var(--muted);
+        }
+
+        /* ===== PERF CARDS ===== */
+        .perf-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+
+        .perf-card {
+            border-radius: 14px;
+            padding: 20px;
+            color: white;
+        }
+
+        .perf-card.high { background: linear-gradient(145deg, #005b4e, #007a68); }
+        .perf-card.mid  { background: linear-gradient(145deg, #0a8a78, #15A186); }
+        .perf-card.low  { background: linear-gradient(145deg, #4a5568, #718096); }
+
+        .perf-card .pf-icon { font-size: 1.8rem; margin-bottom: 6px; }
+        .perf-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 6px; }
+        .perf-card .pf-desc { font-size: 0.78rem; opacity: 0.85; margin-bottom: 12px; }
+        .perf-card .pf-list {
+            background: rgba(255,255,255,0.15);
+            border-radius: 8px;
+            padding: 10px 12px;
+            font-size: 0.8rem;
+            line-height: 1.8;
+        }
+
+        /* ===== CRITERIA BOXES ===== */
+        .criteria-in {
+            background: #f0fff8;
+            border: 1.5px solid #2ecc71;
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .criteria-out {
+            background: #fff5f5;
+            border: 1.5px solid var(--red-soft);
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .criteria-in h3 { color: #1a7a44; font-size: 0.95rem; margin-bottom: 12px; }
+        .criteria-out h3 { color: var(--red-soft); font-size: 0.95rem; margin-bottom: 12px; }
+
+        .criteria-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            margin-bottom: 8px;
+            font-size: 0.83rem;
+            color: var(--text);
+            line-height: 1.5;
+        }
+
+        .criteria-item .ci-icon { font-size: 0.9rem; flex-shrink: 0; margin-top: 1px; }
+
+        /* ===== CERT TAGS ===== */
+        .cert-grid-wrap { display: flex; flex-wrap: wrap; gap: 14px; }
+
+        .cert-college-card {
+            width: calc(33.333% - 10px);
+            background: white;
+            border-radius: 12px;
+            padding: 14px 16px;
+            border: 1px solid var(--border);
+            border-top: 3px solid var(--green);
+        }
+
+        .cert-college-card h4 {
+            font-size: 0.88rem;
+            color: var(--dark);
+            font-weight: 700;
+            margin-bottom: 10px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #eef2f0;
+        }
+
+        .tag {
+            display: inline-block;
+            background: #edf5f2;
+            color: var(--green);
+            font-size: 0.72rem;
+            font-weight: 600;
+            padding: 3px 8px;
+            border-radius: 6px;
+            margin: 2px;
+            border: 1px solid #d5e8e3;
+        }
+
+        /* ===== CERT LIST ===== */
+        .cert-list-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 14px;
+            background: white;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            margin-bottom: 8px;
+        }
+
+        .cert-code {
+            background: linear-gradient(135deg, var(--green), var(--green-mid));
+            color: white;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            min-width: 58px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .cert-name { flex: 1; font-weight: 600; font-size: 0.83rem; color: var(--green); }
+        .cert-type {
+            font-size: 0.72rem;
+            padding: 3px 10px;
+            border-radius: 10px;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        .cert-type.spec { background: #edf5f2; color: var(--green); border: 1px solid #c5ddd6; }
+        .cert-type.supp { background: #e0f7f3; color: #0a6b5a; border: 1px solid #9eddd2; }
+
+        /* ===== TIMELINE REDESIGN ===== */
+        .timeline-wrap {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+            margin-top: 6px;
+        }
+
+        .tl-card {
+            background: white;
+            border-radius: 14px;
+            padding: 16px 18px;
+            border: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .tl-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(10,124,110,0.15);
+        }
+
+        .tl-card::before {
+            content: '';
+            position: absolute;
+            top: 0; right: 0; left: 0;
+            height: 4px;
+            border-radius: 14px 14px 0 0;
+        }
+
+        .tl-card.phase-1::before { background: linear-gradient(90deg, #086e62, #1ab5a0); }
+        .tl-card.phase-2::before { background: linear-gradient(90deg, #0d9b8a, #38d9c4); }
+        .tl-card.phase-3::before { background: linear-gradient(90deg, #12bfaa, #60e8d8); }
+        .tl-card.phase-4::before { background: linear-gradient(90deg, #1ab5a0, #38d9c4); }
+        .tl-card.phase-5::before { background: linear-gradient(90deg, #15A186, #5ecfba); }
+        .tl-card.phase-6::before { background: linear-gradient(90deg, #086e62, #15A186); }
+
+        .tl-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .tl-icon-wrap {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+
+        .phase-1 .tl-icon-wrap { background: #e0f5f2; }
+        .phase-2 .tl-icon-wrap { background: #d4f2ee; }
+        .phase-3 .tl-icon-wrap { background: #c8f0ea; }
+        .phase-4 .tl-icon-wrap { background: #d4f2ee; }
+        .phase-5 .tl-icon-wrap { background: #e0f7f3; }
+        .phase-6 .tl-icon-wrap { background: #e8f5f2; }
+
+        .tl-period-badge {
+            font-size: 0.68rem;
+            font-weight: 800;
+            padding: 3px 10px;
+            border-radius: 10px;
+            color: white;
+        }
+
+        .phase-1 .tl-period-badge { background: #086e62; }
+        .phase-2 .tl-period-badge { background: #0d9b8a; }
+        .phase-3 .tl-period-badge { background: #12bfaa; color: #08403a; }
+        .phase-4 .tl-period-badge { background: #1ab5a0; color: #08403a; }
+        .phase-5 .tl-period-badge { background: #15A186; }
+        .phase-6 .tl-period-badge { background: linear-gradient(135deg, #086e62, #15A186); }
+
+        .tl-phase-title {
+            font-size: 0.88rem;
+            font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 6px;
+        }
+
+        .tl-desc {
+            font-size: 0.76rem;
+            color: var(--muted);
+            line-height: 1.55;
+            text-align: right;
+        }
+
+        .tl-dots {
+            display: flex;
+            gap: 4px;
+            margin-top: 10px;
+        }
+
+        .tl-dot {
+            height: 3px;
+            border-radius: 2px;
+            flex: 1;
+        }
+
+        .phase-1 .tl-dot { background: #086e62; }
+        .phase-2 .tl-dot { background: #0d9b8a; }
+        .phase-3 .tl-dot { background: #12bfaa; }
+        .phase-4 .tl-dot { background: #1ab5a0; }
+        .phase-5 .tl-dot { background: #15A186; }
+        .phase-6 .tl-dot:nth-child(1) { background: #086e62; }
+        .phase-6 .tl-dot:nth-child(2) { background: #15A186; }
+
+        .tl-arrow-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            margin: 10px 0 4px;
+        }
+
+        .tl-arrow {
+            color: var(--border);
+            font-size: 1.2rem;
+            user-select: none;
+        }
+
+        /* ===== BUDGET ===== */
+        .budget-bar {
+            display: flex;
+            height: 58px;
+            border-radius: 12px;
+            overflow: hidden;
+            margin: 18px 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .bb-seg {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 0.82rem;
+        }
+
+        .bb-seg .bp { font-size: 1.1rem; }
+        .bb-seg .bl { font-size: 0.68rem; opacity: 0.9; }
+        .bb-77 { width: 77%; background: linear-gradient(90deg, var(--green), var(--green-mid)); }
+        .bb-15 { width: 15%; background: linear-gradient(90deg, #15A186, #5ecfba); color: white; }
+        .bb-8  { width: 8%;  background: linear-gradient(90deg, #4a5568, #718096); }
+
+        /* ===== TRACK CARDS ===== */
+        .track-card {
+            border-radius: 14px;
+            padding: 22px 24px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .track-a { background: linear-gradient(145deg, #f0fff8, #e0f5ee); border: 1.5px solid #b0ddd2; }
+        .track-b { background: linear-gradient(145deg, #edfaf7, #d4f5ef); border: 1.5px solid #9eddd2; }
+
+        .track-card h3 { font-size: 1.05rem; font-weight: 800; margin-bottom: 8px; }
+        .track-a h3 { color: var(--green); }
+        .track-b h3 { color: #0a6b5a; }
+
+        .track-steps { list-style: none; padding: 0; margin-top: 10px; }
+
+        .track-steps li {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 6px;
+            font-size: 0.82rem;
+            color: var(--text);
+        }
+
+        .step-num {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.68rem;
+            font-weight: 800;
+            color: white;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+
+        .track-a .step-num { background: var(--green); }
+        .track-b .step-num { background: #15A186; }
+
+        /* ===== GOVERNANCE ===== */
+        .gov-card {
+            background: white;
+            border-radius: 14px;
+            padding: 20px;
+            border: 1px solid var(--border);
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+
+        .gov-card .g-icon {
+            font-size: 2rem;
+            margin-bottom: 8px;
+        }
+
+        .gov-card h3 { color: var(--green); font-size: 0.92rem; margin-bottom: 8px; }
+        .gov-card p { font-size: 0.78rem; color: var(--muted); line-height: 1.6; }
+
+        /* ===== RECS ===== */
+        .rec-item {
+            display: flex;
+            gap: 16px;
+            background: white;
+            border-radius: 12px;
+            padding: 14px 18px;
+            border: 1px solid var(--border);
+            margin-bottom: 10px;
+            align-items: flex-start;
+        }
+
+        .rec-num {
+            background: linear-gradient(135deg, var(--green), var(--green-mid));
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 0.85rem;
+            flex-shrink: 0;
+        }
+
+        .rec-text strong { color: var(--green); font-size: 0.9rem; display: block; margin-bottom: 3px; }
+        .rec-text p { font-size: 0.8rem; color: var(--muted); }
+
+        /* ===== CLOSING SLIDE ===== */
+        .closing-slide {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 520px;
+            text-align: center;
+            background: linear-gradient(160deg, #054d44 0%, #0a7c6e 60%, #054d44 100%);
+            position: relative;
+        }
+
+        .closing-slide.active { display: flex; }
+
+        .closing-slide h1 {
+            font-size: 2.6rem;
+            font-weight: 900;
+            color: white;
+            margin-bottom: 16px;
+        }
+
+        .closing-slide p {
+            font-size: 1.1rem;
+            color: rgba(255,255,255,0.7);
+            margin-bottom: 32px;
+        }
+
+        .closing-quote {
+            background: rgba(192,148,68,0.15);
+            border: 1px solid rgba(21,161,134,0.5);
+            border-radius: 14px;
+            padding: 20px 40px;
+            color: #5ecfba;
+            font-size: 1rem;
+            font-style: italic;
+            max-width: 500px;
+        }
+
+        /* ===== BOTTOM NAV ===== */
+        .bottom-nav {
+            background: #072420;
+            padding: 12px 32px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            border-top: 2px solid rgba(21,161,134,0.3);
+            flex-shrink: 0;
+        }
+
+        .nav-btn {
+            background: linear-gradient(135deg, #086e62, #1ab5a0);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            font-weight: 300;
+            line-height: 1;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            box-shadow: 0 2px 8px rgba(10,124,110,0.4);
+        }
+
+        .nav-btn:hover:not(:disabled) {
+            transform: scale(1.1);
+            box-shadow: 0 4px 14px rgba(10,124,110,0.5);
+        }
+
+        .nav-btn:disabled { background: #2a3a38; color: #3a5550; cursor: default; box-shadow: none; }
+
+        .progress-track {
+            flex: 1;
+            height: 4px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--gold), var(--gold-light));
+            border-radius: 2px;
+            transition: width 0.4s ease;
+        }
+
+        .slide-pills {
+            display: flex;
+            gap: 4px;
+        }
+
+        .pill {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .pill.active { background: var(--gold); width: 18px; border-radius: 4px; }
+
+        /* ===== TABLE ===== */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.8rem;
+            margin-top: 14px;
+        }
+
+        .data-table th {
+            background: var(--green);
+            color: white;
+            padding: 9px 12px;
+            text-align: right;
+            font-weight: 700;
+        }
+
+        .data-table td {
+            padding: 8px 12px;
+            border-bottom: 1px solid var(--border);
+            color: var(--text);
+        }
+
+        .data-table tr:nth-child(even) td { background: #f4f9f7; }
+        .data-table tr:hover td { background: #e8f2ef; }
+
+        .pct-high { color: var(--green); font-weight: 700; }
+        .pct-mid  { color: var(--amber); font-weight: 700; }
+        .pct-low  { color: var(--red-soft); font-weight: 700; }
+
+        .scope-badge {
+            display: inline-block;
+            font-size: 0.65rem;
+            padding: 2px 7px;
+            border-radius: 4px;
+            font-weight: 700;
+        }
+
+        .scope-in  { background: #e0f5ee; color: var(--green); border: 1px solid #b0ddd2; }
+        .scope-out { background: #ffe8e8; color: var(--red-soft); border: 1px solid #f5b0b0; }
+
+        /* ===== KPI CARDS ===== */
+        .kpi-card {
+            background: white;
+            border-radius: 12px;
+            padding: 16px 18px;
+            border: 1px solid var(--border);
+            border-top: 3px solid var(--green);
+        }
+
+        .kpi-card h4 { color: var(--green); font-size: 0.85rem; font-weight: 700; margin-bottom: 6px; }
+        .kpi-card p { font-size: 0.77rem; color: var(--muted); line-height: 1.5; }
+
+        /* ===== ANALYSIS CARDS ===== */
+        .analysis-card {
+            background: white;
+            border-radius: 14px;
+            padding: 20px;
+            border: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .analysis-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--green);
+        }
+
+        .analysis-card h3 { color: var(--green); font-size: 0.95rem; font-weight: 700; margin-bottom: 8px; }
+        .analysis-card p { font-size: 0.82rem; color: var(--text); line-height: 1.6; }
+
+        /* ===== SCROLLABLE content ===== */
+        .scroll-content {
+            max-height: 380px;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: #15A186 #eee;
+            padding-left: 4px;
+        }
+
+        /* Budget breakdown */
+        .budget-breakdown {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+            margin-top: 14px;
+        }
+
+        .budget-item {
+            background: white;
+            border-radius: 12px;
+            padding: 18px;
+            border: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .budget-item .b-pct {
+            font-size: 2rem;
+            font-weight: 900;
+            line-height: 1;
+        }
+
+        .budget-item .b-val { font-size: 0.82rem; color: var(--muted); margin-top: 4px; }
+        .budget-item .b-desc { font-size: 0.75rem; color: var(--text); margin-top: 8px; line-height: 1.4; }
+
+        .budget-item.green-b { border-top: 3px solid var(--green); }
+        .budget-item.green-b .b-pct { color: var(--green); }
+        .budget-item.gold-b { border-top: 3px solid var(--gold); }
+        .budget-item.gold-b .b-pct { color: var(--amber); }
+        .budget-item.grey-b { border-top: 3px solid #718096; }
+        .budget-item.grey-b .b-pct { color: #4a5568; }
+
+        .context-label {
+            background: #edf5f2;
+            border: 1px solid #c5ddd6;
+            border-radius: 8px;
+            padding: 8px 14px;
+            font-size: 0.82rem;
+            color: var(--green);
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 18px;
+        }
+
+        /* ===== TABLE 3 SLIDE STYLES ===== */
+        .t3-filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 14px;
+        }
+
+        .t3-btn {
+            background: white;
+            border: 1.5px solid var(--border);
+            border-radius: 20px;
+            padding: 4px 12px;
+            font-family: 'Cairo', sans-serif;
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: var(--muted);
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .t3-btn:hover { border-color: var(--green); color: var(--green); }
+        .t3-btn.active { background: var(--green); border-color: var(--green); color: white; }
+        .t3-btn.active .t3-badge { background: rgba(255,255,255,0.25); color: white; }
+
+        .t3-badge {
+            background: #edf5f2;
+            color: var(--green);
+            border-radius: 10px;
+            padding: 1px 6px;
+            font-size: 0.68rem;
+        }
+
+        .t3-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            max-height: 320px;
+            overflow-y: auto;
+            padding-left: 4px;
+            scrollbar-width: thin;
+            scrollbar-color: #15A186 #eee;
+            margin-bottom: 12px;
+        }
+
+        .t3-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 10px 12px;
+            transition: all 0.25s;
+            overflow: hidden;
+        }
+
+        .t3-card:hover {
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+            transform: translateY(-2px);
+        }
+
+        .t3-card.hidden { display: none; }
+
+        .t3-college-tag {
+            font-size: 0.62rem;
+            font-weight: 700;
+            padding: 2px 7px;
+            border-radius: 6px;
+            display: inline-block;
+            margin-bottom: 6px;
+        }
+
+        .eng-tag   { background: #e8f0ff; color: #2455b5; }
+        .cs-tag    { background: #f0e8ff; color: #6b21a8; }
+        .biz-tag   { background: #e0f7f3; color: #0a6b5a; }
+        .sci-tag   { background: #e6fff8; color: #065f46; }
+        .sport-tag { background: #fef3f0; color: #c0392b; }
+        .edu-tag   { background: #fdf4ff; color: #86198f; }
+        .app-tag   { background: #f0f9ff; color: #0369a1; }
+        .arts-tag  { background: #fff7ed; color: #c2410c; }
+        .hum-tag   { background: #fafaf0; color: #78716c; }
+        .law-tag   { background: #f0fdf4; color: #166534; }
+        .lang-tag  { background: #fdf2f8; color: #9d174d; }
+        .dental-tag{ background: #eff6ff; color: #1e40af; }
+        .nurs-tag  { background: #fff1f2; color: #9f1239; }
+        .health-tag{ background: #ecfdf5; color: #064e3b; }
+        .pharm-tag { background: #fafff0; color: #4d7c0f; }
+
+        .t3-cert-name {
+            font-size: 0.76rem;
+            font-weight: 700;
+            color: var(--dark);
+            line-height: 1.35;
+            margin-bottom: 5px;
+            min-height: 32px;
+        }
+
+        .t3-meta {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-bottom: 6px;
+            flex-wrap: wrap;
+        }
+
+        .t3-org { font-size: 0.62rem; color: var(--muted); }
+
+        .t3-type-badge {
+            font-size: 0.58rem;
+            font-weight: 700;
+            padding: 1px 5px;
+            border-radius: 4px;
+        }
+
+        .t3-type-badge.spec { background: #edf5f2; color: var(--green); border: 1px solid #c5ddd6; }
+        .t3-type-badge.supp { background: #e0f7f3; color: #0a6b5a; border: 1px solid #9eddd2; }
+
+        .t3-count-bar {
+            height: 4px;
+            background: #eee;
+            border-radius: 2px;
+            overflow: hidden;
+            margin-bottom: 4px;
+        }
+
+        .t3-bar-fill { height: 100%; border-radius: 2px; }
+
+        .eng-fill   { background: #2455b5; }
+        .cs-fill    { background: #6b21a8; }
+        .biz-fill   { background: #0a7c6e; }
+        .sci-fill   { background: #065f46; }
+        .sport-fill { background: #c0392b; }
+        .edu-fill   { background: #86198f; }
+        .app-fill   { background: #0369a1; }
+        .arts-fill  { background: #c2410c; }
+        .hum-fill   { background: #78716c; }
+        .law-fill   { background: #166534; }
+        .lang-fill  { background: #9d174d; }
+        .dental-fill{ background: #1e40af; }
+        .nurs-fill  { background: #9f1239; }
+        .health-fill{ background: #064e3b; }
+        .pharm-fill { background: #4d7c0f; }
+
+        .t3-count {
+            font-size: 0.7rem;
+            font-weight: 800;
+            color: var(--dark);
+        }
+
+        .t3-summary {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 10px 20px;
+        }
+
+        .t3-sum-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .t3-sum-n {
+            font-size: 1.3rem;
+            font-weight: 900;
+            color: var(--green);
+            line-height: 1;
+        }
+
+        .t3-sum-l { font-size: 0.68rem; color: var(--muted); margin-top: 2px; }
+
+        .t4-price-row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 8px;
+            flex-wrap: wrap;
+        }
+
+        .t4-price {
+            font-size: 0.72rem;
+            font-weight: 800;
+            color: var(--dark);
+            background: #f0faf8;
+            border: 1px solid #c0e8e0;
+            border-radius: 6px;
+            padding: 2px 7px;
+        }
+
+        .t4-hrdf {
+            font-size: 0.62rem;
+            font-weight: 700;
+            padding: 2px 7px;
+            border-radius: 6px;
+        }
+
+        .hrdf-yes { background: #e0f7f3; color: #086e62; border: 1px solid #9eddd2; }
+        .hrdf-no  { background: #fef0f0; color: #c0392b; border: 1px solid #f5c0bc; }
+
+        .t4-count {
+            font-size: 0.62rem;
+            color: var(--muted);
+            margin-right: auto;
+        }
+
+        .t3-btn-hrdf { font-size: 0.7rem; }
+        .t3-btn-hrdf.active-hrdf { background: #15A186; border-color: #15A186; color: white; }
+
+    </style>
+</head>
+<body>
+
+<div class="outer-shell">
+
+    <!-- TOP BAR -->
+    <div class="top-bar">
+        <div class="brand">
+            <div class="brand-icon"><img src="https://pnu.edu.sa/Style%20Library/NewStyle/UI5/images/pnu-logo-ar.svg" style="width:32px;height:32px;object-fit:contain;filter:brightness(0) invert(1);" alt="PNU"></div>
+            <div class="brand-text">
+                <div class="university">جامعة الأميرة نورة بنت عبدالرحمن</div>
+                <div class="dept">وكالة الجامعة للشؤون الأكاديمية</div>
+            </div>
+        </div>
+        <div class="slide-counter" id="slideCounter">1 / 18</div>
+    </div>
+
+    <!-- SLIDE AREA -->
+    <div class="slide-area">
+
+        <!-- SLIDE 1: Cover -->
+        <div class="cover-slide active" id="slide-1">
+            <div class="cover-inner">
+                <div class="cover-badge">النسخة الثالثة · 1446هـ</div>
+                <h1 class="cover-title">مشروع دعم الطالبات <span>للحصول على الشهادات المهنية</span> عالية الأثر</h1>
+                <p class="cover-subtitle">تعزيز التنافسية وربط المخرجات بسوق العمل</p>
+                <div class="cover-stats">
+                    <div class="cover-stat">
+                        <div class="num">7,374</div>
+                        <div class="lbl">إجمالي الخريجات</div>
+                    </div>
+                    <div class="cover-divider"></div>
+                    <div class="cover-stat">
+                        <div class="num">935</div>
+                        <div class="lbl">حاصلات على شهادات</div>
+                    </div>
+                    <div class="cover-divider"></div>
+                    <div class="cover-stat">
+                        <div class="num">13%</div>
+                        <div class="lbl">النسبة الحالية</div>
+                    </div>
+                    <div class="cover-divider"></div>
+                    <div class="cover-stat">
+                        <div class="num">10</div>
+                        <div class="lbl">كليات مشمولة</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 2: Context -->
+        <div class="slide" id="slide-2">
+            <h2 class="slide-title"><span class="title-icon">📋</span>مقدمة وسياق المشروع</h2>
+            <div class="grid-2">
+                <div class="card">
+                    <h3>🔍 السياق الاستراتيجي</h3>
+                    <ul>
+                        <li>تحقيق مستهدفات <strong>رؤية المملكة 2030</strong> وبرنامج تنمية القدرات البشرية.</li>
+                        <li>تعزيز جاهزية الخريجات للمنافسة محلياً وعالمياً.</li>
+                        <li>دمج الشهادات المهنية في المسار الأكاديمي للطالبة وتقديم الدعم المالي والمهني اللازم.</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>📜 المرجعية النظامية</h3>
+                    <ul>
+                        <li>قرار مجلس شؤون الجامعات رقم <strong>(2/7/1443هـ)</strong> بتاريخ 13/9/1443هـ بالتوسع في تطبيق الشهادات الاحترافية.</li>
+                        <li>إدراج مؤشرات الأداء الخاصة بالشهادات المهنية ضمن التقارير السنوية.</li>
+                        <li>ربط المخرجات الأكاديمية بالاحتياجات الفعلية لسوق العمل المحلي والعالمي.</li>
+                    </ul>
+                </div>
+            </div>
+            <div style="margin-top: 18px;">
+                <div class="card" style="border-right-color: var(--gold);">
+                    <h3>🎯 الهدف العام</h3>
+                    <p>تسعى الجامعة إلى تمكين طالباتها من اكتساب المؤهلات المهنية التي تعزز تنافسيتهن في سوق العمل، وترسّخ مكانة الجامعة الريادية بين الجامعات السعودية والإقليمية.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 3: Objectives -->
+        <div class="slide" id="slide-3">
+            <h2 class="slide-title"><span class="title-icon">🎯</span>أهداف المشروع</h2>
+            <div class="grid-3">
+                <div class="card" style="text-align: center;">
+                    <div style="font-size: 2rem; margin-bottom: 8px;">👩‍🎓</div>
+                    <h3>دعم الطالبات</h3>
+                    <p>تمكينهن مالياً وأكاديمياً للحصول على شهادات مهنية معتمدة محلياً ودولياً تعزز تنافسيتهن في سوق العمل.</p>
+                </div>
+                <div class="card" style="text-align: center;">
+                    <div style="font-size: 2rem; margin-bottom: 8px;">📈</div>
+                    <h3>تحسين المؤشرات</h3>
+                    <p>رفع تصنيف الجامعة في مؤشرات التوظيف والتنافسية، ودعم التقارير الوطنية والدولية الخاصة بمؤشرات الأداء.</p>
+                </div>
+                <div class="card" style="text-align: center;">
+                    <div style="font-size: 2rem; margin-bottom: 8px;">🤝</div>
+                    <h3>تعزيز الشراكات</h3>
+                    <p>توسيع الشراكات مع هيئات الاعتماد المهني كـ HRDF وPMI وAWS وNELC وغيرها من الجهات الوطنية والدولية.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 4: Current Situation — accurate data -->
+        <div class="slide" id="slide-4">
+            <h2 class="slide-title"><span class="title-icon">📊</span>الوضع الراهن — إحصائيات عام 1446هـ</h2>
+            <div class="donut-section">
+                <div class="donut-wrap">
+                    <svg viewBox="0 0 36 36">
+                        <circle cx="18" cy="18" r="15.9" fill="none" stroke="#eee" stroke-width="3.5"/>
+                        <circle cx="18" cy="18" r="15.9" fill="none" stroke="#005b4e" stroke-width="3.5"
+                                stroke-dasharray="13 87" stroke-linecap="round"/>
+                    </svg>
+                    <div class="donut-center">
+                        <div class="big">13%</div>
+                        <div class="small">نسبة الشهادات</div>
+                    </div>
+                </div>
+                <div class="donut-legend">
+                    <div class="legend-row">
+                        <div class="legend-dot" style="background: var(--green);"></div>
+                        <div class="legend-info">
+                            <div class="val" style="color: var(--green);">935 طالبة</div>
+                            <div class="desc">حاصلات على شهادات مهنية (13%)</div>
+                        </div>
+                    </div>
+                    <div class="legend-row">
+                        <div class="legend-dot" style="background: #ddd;"></div>
+                        <div class="legend-info">
+                            <div class="val" style="color: #aaa;">6,439 طالبة</div>
+                            <div class="desc">غير حاصلات (87%) — الفجوة المستهدفة</div>
+                        </div>
+                    </div>
+                    <div style="margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--border);">
+                        <div class="legend-row">
+                            <div class="legend-dot" style="background: #15A186;"></div>
+                            <div class="legend-info">
+                                <div class="val" style="color: #0d8a70;">7,374</div>
+                                <div class="desc">إجمالي الخريجات — المصدر: مبادرة مسارات التعلم المرن و"طموحنا"</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="grid-3" style="margin-top: 20px;">
+                <div class="stat-box">
+                    <div class="icon">🏆</div>
+                    <div class="value">93%</div>
+                    <div class="label">أعلى نسبة (طب الأسنان)</div>
+                </div>
+                <div class="stat-box">
+                    <div class="icon">📊</div>
+                    <div class="value">34%</div>
+                    <div class="label">متوسط الكليات المتوسطة</div>
+                </div>
+                <div class="stat-box">
+                    <div class="icon">⚠️</div>
+                    <div class="value">0%</div>
+                    <div class="label">أدنى نسبة (الطب البشري)</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 5: Performance by College — from Table 2 (accurate) -->
+        <div class="slide" id="slide-5">
+            <h2 class="slide-title"><span class="title-icon">📈</span>تحليل الأداء حسب الكليات — جدول 2</h2>
+            <div class="bar-chart">
+                <div class="bar-row">
+                    <div class="bar-label">طب الأسنان</div>
+                    <div class="bar-track"><div class="bar-fill high" style="width:93%"></div></div>
+                    <div class="bar-pct">93%</div>
+                </div>
+                <div class="bar-row">
+                    <div class="bar-label">الهندسة</div>
+                    <div class="bar-track"><div class="bar-fill high" style="width:82%"></div></div>
+                    <div class="bar-pct">82%</div>
+                </div>
+                <div class="bar-row">
+                    <div class="bar-label">علوم الرياضة والنشاط البدني</div>
+                    <div class="bar-track"><div class="bar-fill high" style="width:65%"></div></div>
+                    <div class="bar-pct">65%</div>
+                </div>
+                <div class="bar-row">
+                    <div class="bar-label">العلوم</div>
+                    <div class="bar-track"><div class="bar-fill mid" style="width:34%"></div></div>
+                    <div class="bar-pct">34%</div>
+                </div>
+                <div class="bar-row">
+                    <div class="bar-label">علوم الحاسب والمعلومات</div>
+                    <div class="bar-track"><div class="bar-fill mid" style="width:30%"></div></div>
+                    <div class="bar-pct">30%</div>
+                </div>
+                <div class="bar-row">
+                    <div class="bar-label">التربية والتنمية البشرية</div>
+                    <div class="bar-track"><div class="bar-fill mid" style="width:28%"></div></div>
+                    <div class="bar-pct">28%</div>
+                </div>
+                <div class="bar-row">
+                    <div class="bar-label">إدارة الأعمال</div>
+                    <div class="bar-track"><div class="bar-fill mid" style="width:23%"></div></div>
+                    <div class="bar-pct">23%</div>
+                </div>
+                <div class="bar-row">
+                    <div class="bar-label">الكلية التطبيقية</div>
+                    <div class="bar-track"><div class="bar-fill low" style="width:5%"></div></div>
+                    <div class="bar-pct">5%</div>
+                </div>
+                <div class="bar-row">
+                    <div class="bar-label">التصاميم والفنون</div>
+                    <div class="bar-track"><div class="bar-fill low" style="width:5%"></div></div>
+                    <div class="bar-pct">5%</div>
+                </div>
+                <div class="bar-row">
+                    <div class="bar-label">الصيدلة</div>
+                    <div class="bar-track"><div class="bar-fill low" style="width:4%"></div></div>
+                    <div class="bar-pct">4%</div>
+                </div>
+                <div class="bar-row">
+                    <div class="bar-label">اللغات / التمريض / الإنسانية / الصحة</div>
+                    <div class="bar-track"><div class="bar-fill low" style="width:2%"></div></div>
+                    <div class="bar-pct">2%</div>
+                </div>
+                <div class="bar-row">
+                    <div class="bar-label">القانون</div>
+                    <div class="bar-track"><div class="bar-fill low" style="width:1%"></div></div>
+                    <div class="bar-pct">1%</div>
+                </div>
+                <div class="bar-row">
+                    <div class="bar-label">الطب البشري</div>
+                    <div class="bar-track"><div class="bar-fill low" style="width:0.5%"></div></div>
+                    <div class="bar-pct">0%</div>
+                </div>
+            </div>
+            <p style="font-size:0.75rem; color:var(--muted); margin-top:8px;">* إدارة الأعمال: المستند يشير إلى 23% (تصحيح من 19% في النسخة السابقة) | المصدر: جدول 2 — إحصائيات 1446هـ</p>
+        </div>
+
+        <!-- SLIDE 6: Performance Categories -->
+        <div class="slide" id="slide-6">
+            <h2 class="slide-title"><span class="title-icon">🔍</span>فئات الأداء — تحليل المستويات</h2>
+            <div class="perf-grid">
+                <div class="perf-card high">
+                    <div class="pf-icon">🌟</div>
+                    <h3>الأعلى أداءً (فوق 50%)</h3>
+                    <p class="pf-desc">تميزت بالدورات التخصصية وارتباط قوي بالشهادات الدولية والمقررات.</p>
+                    <div class="pf-list">
+                        طب الأسنان — 93% (27 طالبة)<br>
+                        الهندسة — 82% (103 طالبة)<br>
+                        علوم الرياضة — 65% (80 طالبة)
+                    </div>
+                </div>
+                <div class="perf-card mid">
+                    <div class="pf-icon">📈</div>
+                    <h3>أداء متوسط (15%–50%)</h3>
+                    <p class="pf-desc">نسب جيدة مع شهادات تقنية، تحتاج لزيادة الدعم والمبادرات.</p>
+                    <div class="pf-list">
+                        العلوم — 34% (148 طالبة)<br>
+                        علوم الحاسب — 30% (188 طالبة)<br>
+                        التربية — 28% (69 طالبة)<br>
+                        إدارة الأعمال — 23% (140 طالبة)
+                    </div>
+                </div>
+                <div class="perf-card low">
+                    <div class="pf-icon">⚠️</div>
+                    <h3>الأقل أداءً (أقل من 5%)</h3>
+                    <p class="pf-desc">تحتاج إلى تدخل ودعم مؤسسي عاجل وتكامل مع الجهات المهنية.</p>
+                    <div class="pf-list">
+                        التطبيقية و التصاميم — 5%<br>
+                        الصيدلة — 4%<br>
+                        اللغات / التمريض / الإنسانية / الصحة — 2%<br>
+                        القانون — 1% | الطب البشري — 0%
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 7: Table 3 — Certs Visual Dashboard -->
+        <div class="slide" id="slide-7" style="padding: 28px 38px;">
+            <h2 class="slide-title" style="margin-bottom: 18px;"><span class="title-icon">📊</span>الشهادات المهنية الاحترافية حسب الكليات</h2>
+
+            <!-- Filter Tabs -->
+            <div class="t3-filters" id="t3Filters">
+                <button class="t3-btn active" onclick="filterT3('all', this)">الكل <span class="t3-badge" id="badge-all">935</span></button>
+                <button class="t3-btn" onclick="filterT3('eng', this)">🏗️ الهندسة <span class="t3-badge">103</span></button>
+                <button class="t3-btn" onclick="filterT3('cs', this)">💻 الحاسب <span class="t3-badge">188</span></button>
+                <button class="t3-btn" onclick="filterT3('biz', this)">💼 الأعمال <span class="t3-badge">140</span></button>
+                <button class="t3-btn" onclick="filterT3('sci', this)">🔬 العلوم <span class="t3-badge">148</span></button>
+                <button class="t3-btn" onclick="filterT3('sport', this)">🏅 الرياضة <span class="t3-badge">80</span></button>
+                <button class="t3-btn" onclick="filterT3('edu', this)">📚 التربية <span class="t3-badge">69</span></button>
+                <button class="t3-btn" onclick="filterT3('app', this)">🎮 التطبيقية <span class="t3-badge">120</span></button>
+                <button class="t3-btn" onclick="filterT3('arts', this)">🎨 التصاميم <span class="t3-badge">24</span></button>
+                <button class="t3-btn" onclick="filterT3('hum', this)">📖 الإنسانية <span class="t3-badge">20</span></button>
+                <button class="t3-btn" onclick="filterT3('law', this)">⚖️ القانون <span class="t3-badge">3</span></button>
+                <button class="t3-btn" onclick="filterT3('lang', this)">🗣️ اللغات <span class="t3-badge">5</span></button>
+            </div>
+
+            <!-- Bubble / Card Grid -->
+            <div class="t3-grid" id="t3Grid">
+
+                <!-- Hndsa -->
+                <div class="t3-card" data-col="eng" data-n="102">
+                    <div class="t3-college-tag eng-tag">🏗️ الهندسة</div>
+                    <div class="t3-cert-name">Google Project Management</div>
+                    <div class="t3-meta"><span class="t3-org">Google / Coursera</span></div>
+                    <div class="t3-count-bar"><div class="t3-bar-fill eng-fill" style="width:100%"></div></div>
+                    <div class="t3-count">102 طالبة</div>
+                </div>
+                <div class="t3-card" data-col="eng" data-n="2">
+                    <div class="t3-college-tag eng-tag">🏗️ الهندسة</div>
+                    <div class="t3-cert-name">SS-PVD — مصمم الأنظمة الشمسية</div>
+                    <div class="t3-meta"><span class="t3-org">KACARE</span><span class="t3-type-badge spec">تخصصية</span></div>
+                    <div class="t3-count-bar"><div class="t3-bar-fill eng-fill" style="width:2%"></div></div>
+                    <div class="t3-count">2 طالبة</div>
+                </div>
+                <div class="t3-card" data-col="eng" data-n="1">
+                    <div class="t3-college-tag eng-tag">🏗️ الهندسة</div>
+                    <div class="t3-cert-name">MOS — أخصائي مايكروسوفت أوفيس</div>
+                    <div class="t3-meta"><span class="t3-org">Microsoft</span><span class="t3-type-badge supp">داعمة</span></div>
+                    <div class="t3-count-bar"><div class="t3-bar-fill eng-fill" style="width:1%"></div></div>
+                    <div class="t3-count">1 طالبة</div>
+                </div>
+
+                <!-- CS -->
+                <div class="t3-card" data-col="cs" data-n="90">
+                    <div class="t3-college-tag cs-tag">💻 علوم الحاسب</div>
+                    <div class="t3-cert-name">Leadership Out of the Box</div>
+                    <div class="t3-meta"><span class="t3-org">Coursera</span><span class="t3-type-badge supp">داعمة</span></div>
+                    <div class="t3-count-bar"><div class="t3-bar-fill cs-fill" style="width:88%"></div></div>
+                    <div class="t3-count">90 طالبة</div>
+                </div>
+                <div class="t3-card" data-col="cs" data-n="87">
+                    <div class="t3-college-tag cs-tag">💻 علوم الحاسب</div>
+                    <div class="t3-cert-name">Risk Management</div>
+                    <div class="t3-meta"><span class="t3-org">Coursera</span><span class="t3-type-badge spec">تخصصية</span></div>
+                    <div class="t3-count-bar"><div class="t3-bar-fill cs-fill" style="width:85%"></div></div>
+                    <div class="t3-count">87 طالبة</div>
+                </div>
+                <div class="t3-card" data-col="cs" data-n="4">
+                    <div class="t3-college-tag cs-tag">💻 علوم الحاسب</div>
+                    <div class="t3-cert-name">CBP-CT — أخصائي تقنية الحاسب</div>
+                    <div class="t3-meta"><span class="t3-org">IBTA</span></div>
+                    <div class="t3-count-bar"><div class="t3-bar-fill cs-fill" style="width:4%"></div></div>
+                    <div class="t3-count">4 طالبة</div>
+                </div>
+                <div class="t3-card" data-col="cs" data-n="3">
+                    <div class="t3-college-tag cs-tag">💻 علوم الحاسب</div>
+                    <div class="t3-cert-name">MOS — أخصائي مايكروسوفت أوفيس</div>
+                    <div class="t3-meta"><span class="t3-org">Microsoft</span><span class="t3-type-badge supp">داعمة</span></div>
+                    <div class="t3-count-bar"><div class="t3-bar-fill cs-fill" style="width:3%"></div></div>
+                    <div class="t3-count">3 طالبة</div>
+                </div>
+                <div class="t3-card" data-col="cs" data-n="2">
+                    <div class="t3-college-tag cs-tag">💻 علوم الحاسب</div>
+                    <div class="t3-cert-name">ACP — أدوبي التصميم المرئي</div>
+                    <div class="t3-meta"><span class="t3-org">Adobe</span></div>
+                    <div class="t3-count-bar"><div class="t3-bar-fill cs-fill" style="width:2%"></div></div>
+                    <div class="t3-count">2 طالبة</div>
+                </div>
+                <div class="t3-card" data-col="cs" data-n="1">
+                    <div class="t3-college-tag cs-tag">💻 علوم الحاسب</div>
+                    <div class="t3-cert-name">PMP — إدارة المشاريع</div>
+                    <div class="t3-meta"><span class="t3-org">PMI</span><span class="t3-type-badge spec">تخصصية</span></div>
+                    <div class="t3-count-bar"><div class="t3-bar-fill cs-fill" style="width:1%"></div></div>
+                    <div class="t3-count">1 طالبة</div>
+                </div>
+
+                <!-- Business -->
+                <div class="t3-card" data-col="biz" data-n="108">
+                    <div class="t3-college-tag biz-tag">💼 إدارة الأعمال</div>
+                    <div class="t3-cert-name">BI Essentials — Power BI للمالية</div>
+                    <div class="t3-meta"><span class="t3-org">Microsoft</span><span class="t3-type-badge supp">داعمة</span></div>
+                    <div class="t3-count-bar"><div class="t3-bar-fill biz-fill" style="width:100%"></div></div>
+                    <div class="t3-count">108 طالبة</div>
+                </div>
+                <div class="t3-card" data-col="biz" data-n="9">
+                    <div class="t3-college-tag biz-tag">💼 إدارة الأعمال</div>
+                    <div class="t3-cert-name">CBP-LS — قيادة إدارية معتمدة</div>
+                    <div class="t3-meta"><span class="t3-org">IBTA</span><span class="t3-type-badge supp">داعمة</span></div>
+                    <div class="t3-count-bar"><div class="t3-bar-fill biz-fill" style="width:8%"></div></div>
+                    <div class="t3-count">9 طالبة</div>
+                </div>
+                <div class="t3-card" data-col="biz" data-n="5">
+                    <div class="t3-college-tag biz-tag">💼 إدارة الأعمال</div>
+                    <div class="t3-cert-name">PMP — إدارة المشاريع الاحترافية</div>
+                    <div class="t3-meta"><span class="t3-org">PMI</span><span class="t3-type-badge spec">تخصصية</span></div>
+                    <div class="t3-count-bar"><div class="t3-bar-fill biz-fill" style="width:5%"></div></div>
+                    <div class="t3-count">5 طالبة</div>
+                </div>
+                <div class="t3-card" data-col="biz" data-n="5">
+                    <div class="t3-college-tag biz-tag">💼 إدارة الأعمال</div>
+                    <div class="t3-cert-name">CBP-PM — إدارة مشاريع معتمدة</div>
+                    <div class="t3-meta"><span class="t3-org">IBTA</span><span class="t3-type-badge spec">تخصصية</span></div>
+                    <div class="t3-count-bar"><div class="t3-bar-fill biz-fill" style="width:5%"></div></div>
+                    <div class="t3-count">5 طالبة</div>
+                </div>
+                <div class="t3-card" data-col="biz" data-n="5">
+                    <div class="t3-college-tag biz-tag">💼 إدارة الأعمال</div>
+                    <div class="t3-cert-name">CBP-M — تسويق معتمد</div>
+                    <div class="t3-meta"><span class="t3-org">IBTA</span></div>
+                    <div class="t3-count-bar"><div class="t3-bar-fill biz-fill" style="width:5%"></div></div>
+                    <div class="t3-count">5 طالبة</div>
+                </div>
+                <div class="t3-card" data-col="biz" data-n="3">
+                    <div class="t3-college-tag biz-tag">💼 إدارة الأعمال</div>
+                    <div class="t3-cert-name">CBP-HR — موارد بشرية معتمدة</div>
+                    <div class="t3-meta"><span class="t3-org">IBTA</span><span class="t3-type-badge spec">تخصصية</span></div>
+                    <div class="t3-count-bar"><div class="t3-bar-fill biz-fill" style="width:3%"></div></div>
+                    <div class="t3-count">3 طالبة</div>
+                </div>
+                <div class="t3-card" data-col="biz" data-n="1">
+                    <div class="t3-college-tag biz-tag">💼 إدارة الأعمال</div>
+                    <div class="t3-cert-name">CBP-S — مبيعات معتمدة + Microsoft 365 AI</div>
+                    <div class="t3-meta"><span class="t3-org">IBTA / Microsoft</span></div>
+                    <div class="t3-count-bar"><div class="t3-bar-fill biz-fill" style="width:1%"></div></div>
+                    <div class="t3-count">1–2 طالبة</div>
+                </div>
+
+                <!-- Science -->
+                <div class="t3-card" data-col="sci" data-n="40">
+                    <div class="t3-college-tag sci-tag">🔬 العلوم</div>
+                    <div class="t3-cert-name">Mathematics for Machine Learning</div>
+                    <div class="t3-meta"><span class="t3-org">DeepLearning.AI</span><span class="t3-type-badge spec">تخصصية</span></div>
+                    <div class="t3-count-bar"><div class="t3-bar-fill sci-fill" style="width:100%"></div></div>
+                    <div class="t3-count">40 طالبة</div>
+                </div>
+                <div class="t3-card" data-col="sci" data-n="34">
+                    <div class="t3-college-tag sci-tag">🔬 العلوم</div>
+                    <div class="t3-cert-name">Semiconductor Devices</div>
+                    <div class="t3-meta"><span class="t3-org">Coursera</span><span class="t3-type-badge spec">تخصصية</span></div>
+                    <div class="t3-count-bar"><div class="t3-bar-fill sci-fill" style="width:85%"></div></div>
+                    <div class="t3-count">34 طالبة</div>
+                </div>
+                <div class="t3-card" data-col="sci" data-n="34">
+                    <div class="t3-college-tag sci-tag">🔬 العلوم</div>
+                    <div class="t3-cert-name">Academic English: Writing</div>
+                    <div class="t3-meta"><span class="t3-org">Coursera</span><span class="t3-type-badge supp">داعمة</span></div>
+                    <div class="t3-count-bar"><div class="t3-bar-fill sci-fill" style="width:85%"></div></div>
+                    <div class="t3-count">34 طالبة</div>
+                </div>
+                <div class="t3-card" data-col="sci" data-n="14">
+                    <div class="t3-college-tag sci-tag">🔬 العلوم</div>
+                    <div class="t3-cert-name">Effective Communication & Presentation</div>
+                    <div class="t3-meta"><span class="t3-org">Coursera</span></div>
+                    <div class="t3-count-bar"><div class="t3-bar-fill sci-fill" style="width:35%"></div></div>
+                    <div class="t3-count">14 طالبة</div>
+                </div>
+                <div class="t3-card" data-col="sci" data-n="13">
+                    <div class="t3-college-tag sci-tag">🔬 العلوم</div>
+                    <div class="t3-cert-name">Academic Skills for University Success</div>
+                    <div class="t3-meta"><span class="t3-org">Coursera</span></div>
+                    <div class="t3-count-bar"><div class="t3-bar-fill sci-fill" style="width:32%"></div></div>
+                    <div class="t3-count">13 طالبة</div>
+                </div>
+                <div class="t3-card" data-col="sci" data-n="12">
+                    <div class="t3-college-tag sci-tag">🔬 العلوم</div>
+                    <div class="t3-cert-name">Ethics in the Age of AI</div>
+                    <div class="t3-meta"><span class="t3-org">Coursera</span><span class="t3-type-badge supp">داعمة</span></div>
+                    <div class="t3-count-bar"><div class="t3-bar-fill sci-fill" style="width:30%"></div></div>
+                    <div class="t3-count">12 طالبة</div>
+                </div>
+                <div class="t3-card" data-col="sci" data-n="4">
+                    <div class="t3-college-tag sci-tag">🔬 العلوم</div>
+                    <div class="t3-cert-name">Biology Everywhere + Immunology</div>
+                    <div class="t3-meta"><span class="t3-org">Coursera</span><span class="t3-type-badge spec">تخصصية</span></div>
+                    <div class="t3-count-bar"><div class="t3-bar-fill sci-fill" style="width:10%"></div></div>
+                    <div class="t3-count">7 طالبة</div>
+                </div>
+
+                <!-- Sports -->
+                <div class="t3-card" data-col="sport" data-n="79">
+                    <div class="t3-college-tag sport-tag">🏅 علوم الرياضة</div>
+                    <div class="t3-cert-name">Google Data Analytics</div>
+                    <div class="t3-meta"><span class="t3-org">Google / Coursera</span><span class="t3-type-badge supp">داعمة</span></div>
+                    <div class="t3-count-bar"><div class="t3-bar-fill sport-fill" style="width:100%"></div></div>
+                    <div class="t3-count">79 طالبة</div>
+                </div>
+                <div class="t3-card" data-col="sport" data-n="1">
+                    <div class="t3-college-tag sport-tag">🏅 علوم الرياضة</div>
+                    <div class="t3-cert-name">Management Consulting</div>
+                    <div class="t3-meta"><span class="t3-org">Coursera</span></div>
+                    <div class="t3-count-bar"><div class="t3-bar-fill sport-fill" style="width:1%"></div></div>
+                    <div class="t3-count">1 طالبة</div>
+                </div>
+
+                <!-- Education -->
+                <div class="t3-card" data-col="edu" data-n="64">
+                    <div class="t3-college-tag edu-tag">📚 التربية</div>
+                    <div class="t3-cert-name">Leading Sustainable Community Transformation</div>
+                    <div class="t3-meta"><span class="t3-org">Coursera</span></div>
+                    <div class="t3-count-bar"><div class="t3-bar-fill edu-fill" style="width:100%"></div></div>
+                    <div class="t3-count">64 طالبة</div>
+                </div>
+                <div class="t3-card" data-col="edu" data-n="2">
+                    <div class="t3-college-tag edu-tag">📚 التربية</div>
+                    <div class="t3-cert-name">CBP-PM — إدارة مشاريع معتمدة</div>
+                    <div class="t3-meta"><span class="t3-org">IBTA</span><span class="t3-type-badge spec">تخصصية</span></div>
+                    <div class="t3-count-bar"><div class="t3-bar-fill edu-fill" style="width:3%"></div></div>
+                    <div class="t3-count">2 طالبة</div>
+                </div>
+                <div class="t3-card" data-col="edu" data-n="1">
+                    <div class="t3-college-tag edu-tag">📚 التربية</div>
+                    <div class="t3-cert-name">CEM — الإدارة التنفيذية + MOS + CBP-LS + Agentic AI</div>
+                    <div class="t3-meta"><span class="t3-org">متعددة</span></div>
+                    <div class="t3-count-bar"><div class="t3-bar-fill edu-fill" style="width:1%"></div></div>
+                    <div class="t3-count">1 طالبة لكل</div>
+                </div>
+
+                <!-- Applied College -->
+                <div class="t3-card" data-col="app" data-n="97">
+                    <div class="t3-college-tag app-tag">🎮 الكلية التطبيقية</div>
+                    <div class="t3-cert-name">Art for Games</div>
+                    <div class="t3-meta"><span class="t3-org">Coursera</span><span class="t3-type-badge spec">تخصصية</span></div>
+                    <div class="t3-count-bar"><div class="t3-bar-fill app-fill" style="width:100%"></div></div>
+                    <div class="t3-count">97 طالبة</div>
+                </div>
+                <div class="t3-card" data-col="app" data-n="10">
+                    <div class="t3-college-tag app-tag">🎮 الكلية التطبيقية</div>
+                    <div class="t3-cert-name">Inclusive Leadership</div>
+                    <div class="t3-meta"><span class="t3-org">Coursera</span><span class="t3-type-badge supp">داعمة</span></div>
+                    <div class="t3-count-bar"><div class="t3-bar-fill app-fill" style="width:10%"></div></div>
+                    <div class="t3-count">10 طالبة</div>
+                </div>
+                <div class="t3-card" data-col="app" data-n="2">
+                    <div class="t3-college-tag app-tag">🎮 الكلية التطبيقية</div>
+                    <div class="t3-cert-name">ACP + CBP-M + CBP-LS</div>
+                    <div class="t3-meta"><span class="t3-org">Adobe / IBTA</span></div>
+                    <div class="t3-count-bar"><div class="t3-bar-fill app-fill" style="width:2%"></div></div>
+                    <div class="t3-count">2 طالبة لكل</div>
+                </div>
+                <div class="t3-card" data-col="app" data-n="1">
+                    <div class="t3-college-tag app-tag">🎮 الكلية التطبيقية</div>
+                    <div class="t3-cert-name">Cybersecurity + Agentic AI + MOS + CBP-HR</div>
+                    <div class="t3-meta"><span class="t3-org">متعددة</span></div>
+                    <div class="t3-count-bar"><div class="t3-bar-fill app-fill" style="width:1%"></div></div>
+                    <div class="t3-count">1 طالبة لكل</div>
+                </div>
+
+                <!-- Arts -->
+                <div class="t3-card" data-col="arts" data-n="21">
+                    <div class="t3-college-tag arts-tag">🎨 التصاميم والفنون</div>
+                    <div class="t3-cert-name">Photography Basics & Beyond: DSLR</div>
+                    <div class="t3-meta"><span class="t3-org">Michigan State Univ.</span><span class="t3-type-badge spec">تخصصية</span></div>
+                    <div class="t3-count-bar"><div class="t3-bar-fill arts-fill" style="width:100%"></div></div>
+                    <div class="t3-count">21 طالبة</div>
+                </div>
+                <div class="t3-card" data-col="arts" data-n="1">
+                    <div class="t3-college-tag arts-tag">🎨 التصاميم والفنون</div>
+                    <div class="t3-cert-name">CEM + CBP-CT + التسويق الرقمي</div>
+                    <div class="t3-meta"><span class="t3-org">متعددة</span></div>
+                    <div class="t3-count-bar"><div class="t3-bar-fill arts-fill" style="width:5%"></div></div>
+                    <div class="t3-count">1 طالبة لكل</div>
+                </div>
+
+                <!-- Humanities -->
+                <div class="t3-card" data-col="hum" data-n="6">
+                    <div class="t3-college-tag hum-tag">📖 الإنسانية</div>
+                    <div class="t3-cert-name">Caring For Others</div>
+                    <div class="t3-meta"><span class="t3-org">Coursera</span></div>
+                    <div class="t3-count-bar"><div class="t3-bar-fill hum-fill" style="width:100%"></div></div>
+                    <div class="t3-count">6 طالبة</div>
+                </div>
+                <div class="t3-card" data-col="hum" data-n="4">
+                    <div class="t3-college-tag hum-tag">📖 الإنسانية</div>
+                    <div class="t3-cert-name">CBP-PM — إدارة مشاريع معتمدة</div>
+                    <div class="t3-meta"><span class="t3-org">IBTA</span></div>
+                    <div class="t3-count-bar"><div class="t3-bar-fill hum-fill" style="width:67%"></div></div>
+                    <div class="t3-count">4 طالبة</div>
+                </div>
+                <div class="t3-card" data-col="hum" data-n="3">
+                    <div class="t3-college-tag hum-tag">📖 الإنسانية</div>
+                    <div class="t3-cert-name">MOS + Good with Words Specialization</div>
+                    <div class="t3-meta"><span class="t3-org">Microsoft / Coursera</span></div>
+                    <div class="t3-count-bar"><div class="t3-bar-fill hum-fill" style="width:50%"></div></div>
+                    <div class="t3-count">3 طالبة</div>
+                </div>
+                <div class="t3-card" data-col="hum" data-n="2">
+                    <div class="t3-college-tag hum-tag">📖 الإنسانية</div>
+                    <div class="t3-cert-name">Leadership: An Introduction + CBP-CT + CEM + PMP</div>
+                    <div class="t3-meta"><span class="t3-org">متعددة</span></div>
+                    <div class="t3-count-bar"><div class="t3-bar-fill hum-fill" style="width:33%"></div></div>
+                    <div class="t3-count">2 طالبة لكل</div>
+                </div>
+
+                <!-- Law -->
+                <div class="t3-card" data-col="law" data-n="1">
+                    <div class="t3-college-tag law-tag">⚖️ القانون</div>
+                    <div class="t3-cert-name">Strategic Leadership & Management</div>
+                    <div class="t3-meta"><span class="t3-org">Coursera</span><span class="t3-type-badge supp">داعمة</span></div>
+                    <div class="t3-count-bar"><div class="t3-bar-fill law-fill" style="width:100%"></div></div>
+                    <div class="t3-count">1 طالبة</div>
+                </div>
+                <div class="t3-card" data-col="law" data-n="1">
+                    <div class="t3-college-tag law-tag">⚖️ القانون</div>
+                    <div class="t3-cert-name">Google Data Analytics + Business English + Cybersecurity + MOS + Agentic AI</div>
+                    <div class="t3-meta"><span class="t3-org">Google / Coursera / Microsoft</span></div>
+                    <div class="t3-count-bar"><div class="t3-bar-fill law-fill" style="width:100%"></div></div>
+                    <div class="t3-count">1 طالبة لكل</div>
+                </div>
+
+                <!-- Languages -->
+                <div class="t3-card" data-col="lang" data-n="2">
+                    <div class="t3-college-tag lang-tag">🗣️ اللغات</div>
+                    <div class="t3-cert-name">PMP — إدارة المشاريع الاحترافية</div>
+                    <div class="t3-meta"><span class="t3-org">PMI</span><span class="t3-type-badge spec">تخصصية</span></div>
+                    <div class="t3-count-bar"><div class="t3-bar-fill lang-fill" style="width:100%"></div></div>
+                    <div class="t3-count">2 طالبة</div>
+                </div>
+                <div class="t3-card" data-col="lang" data-n="1">
+                    <div class="t3-college-tag lang-tag">🗣️ اللغات</div>
+                    <div class="t3-cert-name">ACP أدوبي + Business English + MOS</div>
+                    <div class="t3-meta"><span class="t3-org">Adobe / Coursera / Microsoft</span></div>
+                    <div class="t3-count-bar"><div class="t3-bar-fill lang-fill" style="width:50%"></div></div>
+                    <div class="t3-count">1 طالبة لكل</div>
+                </div>
+
+                <!-- Dental -->
+                <div class="t3-card" data-col="dental" data-n="27">
+                    <div class="t3-college-tag dental-tag">🦷 طب الأسنان</div>
+                    <div class="t3-cert-name">Leadership: An Introduction</div>
+                    <div class="t3-meta"><span class="t3-org">Coursera</span><span class="t3-type-badge supp">داعمة</span></div>
+                    <div class="t3-count-bar"><div class="t3-bar-fill dental-fill" style="width:100%"></div></div>
+                    <div class="t3-count">27 طالبة</div>
+                </div>
+
+                <!-- Nursing -->
+                <div class="t3-card" data-col="nurs" data-n="3">
+                    <div class="t3-college-tag nurs-tag">🏥 التمريض</div>
+                    <div class="t3-cert-name">Nursing Informatics Leadership</div>
+                    <div class="t3-meta"><span class="t3-org">Coursera</span><span class="t3-type-badge spec">تخصصية</span></div>
+                    <div class="t3-count-bar"><div class="t3-bar-fill nurs-fill" style="width:100%"></div></div>
+                    <div class="t3-count">3 طالبة</div>
+                </div>
+
+                <!-- Health -->
+                <div class="t3-card" data-col="health" data-n="1">
+                    <div class="t3-college-tag health-tag">🩺 الصحة وعلوم التأهيل</div>
+                    <div class="t3-cert-name">Leadership for Public Health Crises</div>
+                    <div class="t3-meta"><span class="t3-org">Coursera</span></div>
+                    <div class="t3-count-bar"><div class="t3-bar-fill health-fill" style="width:100%"></div></div>
+                    <div class="t3-count">1 طالبة</div>
+                </div>
+
+                <!-- Pharmacy -->
+                <div class="t3-card" data-col="pharm" data-n="1">
+                    <div class="t3-college-tag pharm-tag">💊 الصيدلة</div>
+                    <div class="t3-cert-name">IBM Product Manager + Project Management + PMP</div>
+                    <div class="t3-meta"><span class="t3-org">IBM / Coursera / PMI</span></div>
+                    <div class="t3-count-bar"><div class="t3-bar-fill pharm-fill" style="width:100%"></div></div>
+                    <div class="t3-count">1 طالبة لكل</div>
+                </div>
+
+            </div><!-- end t3-grid -->
+
+            <!-- Summary strip -->
+            <div class="t3-summary">
+                <div class="t3-sum-item"><span class="t3-sum-n">935</span><span class="t3-sum-l">إجمالي الحاصلات</span></div>
+                <div class="t3-sum-sep"></div>
+                <div class="t3-sum-item"><span class="t3-sum-n" style="color:#15A186">108</span><span class="t3-sum-l">Power BI — الأعلى في الأعمال</span></div>
+                <div class="t3-sum-sep"></div>
+                <div class="t3-sum-item"><span class="t3-sum-n" style="color:#7b5ea7">102</span><span class="t3-sum-l">Google PM — الأعلى في الهندسة</span></div>
+                <div class="t3-sum-sep"></div>
+                <div class="t3-sum-item"><span class="t3-sum-n" style="color:#2980b9">97</span><span class="t3-sum-l">Art for Games — التطبيقية</span></div>
+            </div>
+        </div>
+
+        <!-- SLIDE 8: Scope (was 7) -->
+        <div class="slide" id="slide-8">
+            <h2 class="slide-title"><span class="title-icon">🗂️</span>نطاق المشروع</h2>
+            <div class="grid-2">
+                <div class="criteria-in">
+                    <h3>✅ الكليات المشمولة — 10 كليات</h3>
+                    <div class="criteria-item"><span class="ci-icon">✔</span><span>العلوم</span></div>
+                    <div class="criteria-item"><span class="ci-icon">✔</span><span>علوم الحاسب والمعلومات</span></div>
+                    <div class="criteria-item"><span class="ci-icon">✔</span><span>الهندسة</span></div>
+                    <div class="criteria-item"><span class="ci-icon">✔</span><span>العلوم الإنسانية والاجتماعية</span></div>
+                    <div class="criteria-item"><span class="ci-icon">✔</span><span>القانون</span></div>
+                    <div class="criteria-item"><span class="ci-icon">✔</span><span>اللغات والترجمة</span></div>
+                    <div class="criteria-item"><span class="ci-icon">✔</span><span>التصاميم والفنون</span></div>
+                    <div class="criteria-item"><span class="ci-icon">✔</span><span>التربية والتنمية البشرية</span></div>
+                    <div class="criteria-item"><span class="ci-icon">✔</span><span>علوم الرياضة والنشاط البدني</span></div>
+                    <div class="criteria-item"><span class="ci-icon">✔</span><span>الكلية التطبيقية</span></div>
+                </div>
+                <div class="criteria-out">
+                    <h3>❌ الجهات المستثناة</h3>
+                    <p style="font-size:0.82rem; color:var(--text); margin-bottom:12px;">تُستثنى الكليات الصحية لارتباط برامجها باختبارات رخص مهنية إلزامية تنظمها الهيئة السعودية للتخصصات الصحية (SCFHS):</p>
+                    <div class="criteria-item"><span class="ci-icon">✕</span><span>كلية الطب البشري</span></div>
+                    <div class="criteria-item"><span class="ci-icon">✕</span><span>كلية التمريض</span></div>
+                    <div class="criteria-item"><span class="ci-icon">✕</span><span>كلية طب الأسنان</span></div>
+                    <div class="criteria-item"><span class="ci-icon">✕</span><span>كلية الصيدلة</span></div>
+                    <div class="criteria-item"><span class="ci-icon">✕</span><span>كلية الصحة وعلوم التأهيل</span></div>
+                    <div class="criteria-item"><span class="ci-icon">✕</span><span>معهد اللغة العربية</span></div>
+                </div>
+            </div>
+            <div class="card" style="margin-top: 16px; border-right-color: var(--gold);">
+                <h3>🎯 معايير الأهلية للطالبات</h3>
+                <p style="font-size:0.82rem;">يُطبّق المشروع على طالبات البكالوريوس والدبلوم. لا يجوز دعم أكثر من شهادة واحدة للطالبة في السنة الأكاديمية الواحدة، وتُمنح كل كلية نسبة مخصصة تتناسب مع عدد طالباتها (10–15٪ من إجمالي الميزانية).</p>
+            </div>
+        </div>
+
+        <!-- SLIDE 8: Inclusion Criteria -->
+        <div class="slide" id="slide-9">
+            <h2 class="slide-title"><span class="title-icon">✅</span>معايير الإدراج والاستبعاد للشهادات</h2>
+            <div class="grid-2">
+                <div class="criteria-in">
+                    <h3>✅ تُقبل الشهادة إذا كانت:</h3>
+                    <div class="criteria-item"><span class="ci-icon">✔</span><span>صادرة عن جهة اعتماد وطنية أو دولية موثوقة (HRDF، NELC، PMI، AWS، TESOL، ISO...)</span></div>
+                    <div class="criteria-item"><span class="ci-icon">✔</span><span>تتضمن اختباراً أو تقييماً مهنياً رسمياً، وليس مجرد حضور دورة تدريبية.</span></div>
+                    <div class="criteria-item"><span class="ci-icon">✔</span><span>يمكن التحقق من صحتها إلكترونياً عبر موقع الجهة المانحة أو رمز تحقق رسمي.</span></div>
+                    <div class="criteria-item"><span class="ci-icon">✔</span><span>مرتبطة بالتخصص الأكاديمي للطالبة أو تُسهم في رفع جاهزيتها الوظيفية.</span></div>
+                    <div class="criteria-item"><span class="ci-icon">✔</span><span>مرفقة بإثبات رسمي معتمد (الشهادة، التقرير، أو رابط التحقق).</span></div>
+                </div>
+                <div class="criteria-out">
+                    <h3>❌ تُستبعد الشهادة إذا كانت:</h3>
+                    <div class="criteria-item"><span class="ci-icon">✕</span><span>تقتصر على الحضور دون اختبار أو تقييم مهني رسمي.</span></div>
+                    <div class="criteria-item"><span class="ci-icon">✕</span><span>غير معتمدة أو صادرة من جهات تجارية غير موثوقة.</span></div>
+                    <div class="criteria-item"><span class="ci-icon">✕</span><span>لا ترتبط بالتخصص أو خطة التطوير المهني للطالبة.</span></div>
+                    <div class="criteria-item"><span class="ci-icon">✕</span><span>تم الحصول عليها قبل الالتحاق بالجامعة أو بعد التخرج.</span></div>
+                    <div class="criteria-item"><span class="ci-icon">✕</span><span>تمثل طلباً مكرراً لنفس الشهادة أو المستوى.</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 9: Classification -->
+        <div class="slide" id="slide-10">
+            <h2 class="slide-title"><span class="title-icon">🗃️</span>تصنيف الشهادات المعتمدة</h2>
+            <div class="grid-2">
+                <div class="track-card track-a">
+                    <h3>🛠️ الشهادات التخصصية<br><small style="font-weight:400; font-size:0.8rem; color:var(--muted);">Discipline-Specific Certificates</small></h3>
+                    <p style="font-size:0.82rem; color:var(--text); margin-bottom: 10px;">ترتبط ارتباطاً مباشراً بالتخصص الأكاديمي للكلية وتسهم في إعداد الطالبة كخبيرة في مجالها.</p>
+                    <p style="font-size:0.78rem; color:var(--muted);">أمثلة: PMP، CFA، CAHIMS، CompTIA Security+، CWNA، CPT، FAA 107، SS-PVD</p>
+                </div>
+                <div class="track-card track-b">
+                    <h3>💡 الشهادات الداعمة<br><small style="font-weight:400; font-size:0.8rem; color:#0a6b5a;">Complementary Skills Certificates</small></h3>
+                    <p style="font-size:0.82rem; color:var(--text); margin-bottom: 10px;">تعزز المهارات العامة والمشتركة بين مختلف التخصصات كالمهارات الرقمية والإدارية وريادة الأعمال.</p>
+                    <p style="font-size:0.78rem; color:#0a6b5a;">أمثلة: MOS، Power BI، Google Data Analytics، CBP-LS، MOS، ACP Adobe</p>
+                </div>
+            </div>
+            <div class="card" style="margin-top: 18px; border-right-color: var(--gold);">
+                <p style="font-size:0.82rem;">هذا التصنيف ثمرة جهد تشاركي بين الكليات واللجان الأكاديمية، يهدف إلى ضمان شمول التخصصات كافة وتحقيق الاتزان بين متطلبات التوظيف الحديثة والتنمية الأكاديمية المستدامة.</p>
+            </div>
+        </div>
+
+        <!-- SLIDE 10: Approved Certs Examples — from actual Table 3 data -->
+        <div class="slide" id="slide-11">
+            <h2 class="slide-title"><span class="title-icon">📜</span>أبرز الشهادات المعتمدة</h2>
+            <div class="grid-2">
+                <div>
+                    <div class="cert-list-row">
+                        <span class="cert-code">PMP</span>
+                        <span class="cert-name">إدارة المشاريع الاحترافية</span>
+                        <span class="cert-type spec">تخصصية</span>
+                    </div>
+                    <div class="cert-list-row">
+                        <span class="cert-code">MOS</span>
+                        <span class="cert-name">أخصائي مايكروسوفت أوفيس</span>
+                        <span class="cert-type supp">داعمة</span>
+                    </div>
+                    <div class="cert-list-row">
+                        <span class="cert-code">CFA</span>
+                        <span class="cert-name">المحلل المالي المعتمد</span>
+                        <span class="cert-type spec">تخصصية</span>
+                    </div>
+                    <div class="cert-list-row">
+                        <span class="cert-code">CBP-LS</span>
+                        <span class="cert-name">محترف أعمال معتمد في القيادة</span>
+                        <span class="cert-type supp">داعمة</span>
+                    </div>
+                    <div class="cert-list-row">
+                        <span class="cert-code">Power BI</span>
+                        <span class="cert-name">محلل بيانات Power BI المشارك</span>
+                        <span class="cert-type supp">داعمة</span>
+                    </div>
+                    <div class="cert-list-row">
+                        <span class="cert-code">Security+</span>
+                        <span class="cert-name">شهادة كومبتيا الأمن السيبراني</span>
+                        <span class="cert-type spec">تخصصية</span>
+                    </div>
+                </div>
+                <div>
+                    <div class="cert-list-row">
+                        <span class="cert-code">FAA 107</span>
+                        <span class="cert-name">تشغيل الطائرات بدون طيار</span>
+                        <span class="cert-type spec">تخصصية</span>
+                    </div>
+                    <div class="cert-list-row">
+                        <span class="cert-code">SS-PVD</span>
+                        <span class="cert-name">مصمم الأنظمة الشمسية الكهروضوئية</span>
+                        <span class="cert-type spec">تخصصية</span>
+                    </div>
+                    <div class="cert-list-row">
+                        <span class="cert-code">RIDQC</span>
+                        <span class="cert-name">محترف معتمد في التصميم الداخلي</span>
+                        <span class="cert-type spec">تخصصية</span>
+                    </div>
+                    <div class="cert-list-row">
+                        <span class="cert-code">ACP</span>
+                        <span class="cert-name">محترف أدوبي في التصميم المرئي</span>
+                        <span class="cert-type supp">داعمة</span>
+                    </div>
+                    <div class="cert-list-row">
+                        <span class="cert-code">CPT</span>
+                        <span class="cert-name">مدرب شخصي معتمد — NSCA</span>
+                        <span class="cert-type spec">تخصصية</span>
+                    </div>
+                    <div class="cert-list-row">
+                        <span class="cert-code">NATTI</span>
+                        <span class="cert-name">مترجم تحريري معتمد</span>
+                        <span class="cert-type spec">تخصصية</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 12: Table 4 — Approved Certificates Interactive -->
+        <div class="slide" id="slide-12" style="padding: 28px 38px;">
+            <h2 class="slide-title" style="margin-bottom: 16px;"><span class="title-icon">🏅</span>الشهادات المهنية المعتمدة للدعم — جدول 4</h2>
+
+            <!-- Filter tabs -->
+            <div class="t3-filters" id="t4Filters">
+                <button class="t3-btn active" onclick="filterT4('all', this)">الكل <span class="t3-badge" id="t4-badge-all">8 كليات</span></button>
+                <button class="t3-btn" onclick="filterT4('app2', this)">🏫 التطبيقية</button>
+                <button class="t3-btn" onclick="filterT4('biz2', this)">💼 الأعمال</button>
+                <button class="t3-btn" onclick="filterT4('edu2', this)">📚 التربية</button>
+                <button class="t3-btn" onclick="filterT4('sci2', this)">🔬 العلوم</button>
+                <button class="t3-btn" onclick="filterT4('hum2', this)">📖 الإنسانية</button>
+                <button class="t3-btn" onclick="filterT4('cs2', this)">💻 الحاسب</button>
+                <button class="t3-btn" onclick="filterT4('sport2', this)">🏅 الرياضة</button>
+                <button class="t3-btn" onclick="filterT4('arts2', this)">🎨 التصاميم</button>
+                <button class="t3-btn" onclick="filterT4('eng2', this)">🏗️ الهندسة</button>
+                <button class="t3-btn" onclick="filterT4('law2', this)">⚖️ القانون</button>
+                <button class="t3-btn" onclick="filterT4('lang2', this)">🗣️ اللغات</button>
+                <button class="t3-btn t3-btn-hrdf active-hrdf" onclick="filterT4HRdf(this)" id="hrdfBtn" style="border-color:#15A186;">دعم هدف ✓</button>
+            </div>
+
+            <div class="t3-grid" id="t4Grid" style="grid-template-columns:repeat(3,1fr); max-height:340px;">
+
+                <!-- التطبيقية -->
+                <div class="t3-card" data-col4="app2" data-hrdf="yes"><div class="t3-college-tag app-tag">🏫 التطبيقية — إدارة الضيافة</div><div class="t3-cert-name">Certified Hospitality Supervisor</div><div class="t3-meta"><span class="t3-org">American Hotel & Lodging Inst.</span><span class="t3-type-badge spec">تخصصية</span></div><div class="t4-price-row"><span class="t4-price">2,140 ر</span><span class="t4-hrdf hrdf-yes">هدف ✓</span><span class="t4-count">1 طالبة</span></div></div>
+                <div class="t3-card" data-col4="app2" data-hrdf="yes"><div class="t3-college-tag app-tag">🏫 التطبيقية — الضيافة الجوية</div><div class="t3-cert-name">Gold Food Service Professional</div><div class="t3-meta"><span class="t3-org">American Hotel & Lodging Inst.</span><span class="t3-type-badge spec">تخصصية</span></div><div class="t4-price-row"><span class="t4-price">2,390 ر</span><span class="t4-hrdf hrdf-yes">هدف ✓</span><span class="t4-count">1 طالبة</span></div></div>
+                <div class="t3-card" data-col4="app2" data-hrdf="no"><div class="t3-college-tag app-tag">🏫 التطبيقية — السياحة والسفر</div><div class="t3-cert-name">Amadeus — نظام الحجز والطيران</div><div class="t3-meta"><span class="t3-org">Amadeus</span><span class="t3-type-badge spec">تخصصية</span></div><div class="t4-price-row"><span class="t4-price">1,012 ر</span><span class="t4-hrdf hrdf-no">هدف ✗</span><span class="t4-count">1 طالبة</span></div></div>
+                <div class="t3-card" data-col4="app2" data-hrdf="yes"><div class="t3-college-tag app-tag">🏫 التطبيقية — فن الطهي</div><div class="t3-cert-name">Certified Kitchen Cook (CKC)</div><div class="t3-meta"><span class="t3-org">American Hotel & Lodging Inst.</span><span class="t3-type-badge spec">تخصصية</span></div><div class="t4-price-row"><span class="t4-price">4,844 ر</span><span class="t4-hrdf hrdf-yes">هدف ✓</span><span class="t4-count">1 طالبة</span></div></div>
+                <div class="t3-card" data-col4="app2" data-hrdf="no"><div class="t3-college-tag app-tag">🏫 التطبيقية — التأمين</div><div class="t3-cert-name">Insurance Foundations Certificate</div><div class="t3-meta"><span class="t3-org">The Financial Academy</span><span class="t3-type-badge spec">تخصصية</span></div><div class="t4-price-row"><span class="t4-price">1,000 ر</span><span class="t4-hrdf hrdf-no">هدف ✗</span><span class="t4-count">1 طالبة</span></div></div>
+                <div class="t3-card" data-col4="app2" data-hrdf="no"><div class="t3-college-tag app-tag">🏫 التطبيقية — المصارف</div><div class="t3-cert-name">Professional Certificate of Retail Banking Foundations</div><div class="t3-meta"><span class="t3-org">The Financial Academy</span><span class="t3-type-badge spec">تخصصية</span></div><div class="t4-price-row"><span class="t4-price">1,495 ر</span><span class="t4-hrdf hrdf-no">هدف ✗</span><span class="t4-count">1 طالبة</span></div></div>
+                <div class="t3-card" data-col4="app2" data-hrdf="yes"><div class="t3-college-tag app-tag">🏫 التطبيقية — إدارة المكاتب</div><div class="t3-cert-name">Microsoft Office Specialist (MOS)</div><div class="t3-meta"><span class="t3-org">Microsoft</span><span class="t3-type-badge supp">داعمة</span></div><div class="t4-price-row"><span class="t4-price">3,450 ر</span><span class="t4-hrdf hrdf-yes">هدف ✓</span><span class="t4-count">1 طالبة</span></div></div>
+                <div class="t3-card" data-col4="app2" data-hrdf="yes"><div class="t3-college-tag app-tag">🏫 التطبيقية — المحاسبة</div><div class="t3-cert-name">Accounting Technician Certificate (CAT)</div><div class="t3-meta"><span class="t3-org">CompTIA</span><span class="t3-type-badge spec">تخصصية</span></div><div class="t4-price-row"><span class="t4-price">1,200 ر</span><span class="t4-hrdf hrdf-yes">هدف ✓</span><span class="t4-count">1 طالبة</span></div></div>
+                <div class="t3-card" data-col4="app2" data-hrdf="no"><div class="t3-college-tag app-tag">🏫 التطبيقية — اللغة الصينية</div><div class="t3-cert-name">Chinese Proficiency HSK 2</div><div class="t3-meta"><span class="t3-org">Hanban</span><span class="t3-type-badge spec">تخصصية</span></div><div class="t4-price-row"><span class="t4-price">403 ر</span><span class="t4-hrdf hrdf-no">هدف ✗</span><span class="t4-count">1 طالبة</span></div></div>
+                <div class="t3-card" data-col4="app2" data-hrdf="yes"><div class="t3-college-tag app-tag">🏫 التطبيقية — الموارد البشرية</div><div class="t3-cert-name">Associate Professional in HR International (aPHRi)</div><div class="t3-meta"><span class="t3-org">HRCL</span><span class="t3-type-badge spec">تخصصية</span></div><div class="t4-price-row"><span class="t4-price">1,500 ر</span><span class="t4-hrdf hrdf-yes">هدف ✓</span><span class="t4-count">1 طالبة</span></div></div>
+                <div class="t3-card" data-col4="app2" data-hrdf="yes"><div class="t3-college-tag app-tag">🏫 التطبيقية — العلاقات العامة</div><div class="t3-cert-name">Local Communication Strategy (CMI)</div><div class="t3-meta"><span class="t3-org">Chartered Management Institute</span><span class="t3-type-badge spec">تخصصية</span></div><div class="t4-price-row"><span class="t4-price">20,070 ر</span><span class="t4-hrdf hrdf-yes">هدف ✓</span><span class="t4-count">1 طالبة</span></div></div>
+
+                <!-- إدارة الأعمال -->
+                <div class="t3-card" data-col4="biz2" data-hrdf="yes"><div class="t3-college-tag biz-tag">💼 الأعمال — الاقتصاد</div><div class="t3-cert-name">أنظمة السوق المالية السعودية (CME-1B)</div><div class="t3-meta"><span class="t3-org">هيئة السوق المالية / CISI</span><span class="t3-type-badge spec">تخصصية</span></div><div class="t4-price-row"><span class="t4-price">1,100 ر</span><span class="t4-hrdf hrdf-yes">هدف ✓</span><span class="t4-count">2 طالبة</span></div></div>
+                <div class="t3-card" data-col4="biz2" data-hrdf="no"><div class="t3-college-tag biz-tag">💼 الأعمال — الاقتصاد المالي</div><div class="t3-cert-name">Financial Modeling & Valuation Analyst (FMVA)</div><div class="t3-meta"><span class="t3-org">CFI</span><span class="t3-type-badge spec">تخصصية</span></div><div class="t4-price-row"><span class="t4-price">1,870 ر</span><span class="t4-hrdf hrdf-no">هدف ✗</span><span class="t4-count">2 طالبة</span></div></div>
+                <div class="t3-card" data-col4="biz2" data-hrdf="no"><div class="t3-college-tag biz-tag">💼 الأعمال — التكنولوجيا المالية</div><div class="t3-cert-name">FinTech Industry Professional (FTIP)</div><div class="t3-meta"><span class="t3-org">CFI</span><span class="t3-type-badge spec">تخصصية</span></div><div class="t4-price-row"><span class="t4-price">1,870 ر</span><span class="t4-hrdf hrdf-no">هدف ✗</span><span class="t4-count">2 طالبة</span></div></div>
+                <div class="t3-card" data-col4="biz2" data-hrdf="yes"><div class="t3-college-tag biz-tag">💼 الأعمال — سلاسل الإمداد</div><div class="t3-cert-name">Certified Supply Chain Professional (CSCP)</div><div class="t3-meta"><span class="t3-org">APICS</span><span class="t3-type-badge spec">تخصصية</span></div><div class="t4-price-row"><span class="t4-price">5,325 ر</span><span class="t4-hrdf hrdf-yes">هدف ✓</span><span class="t4-count">1 طالبة</span></div></div>
+                <div class="t3-card" data-col4="biz2" data-hrdf="yes"><div class="t3-college-tag biz-tag">💼 الأعمال — الموارد البشرية</div><div class="t3-cert-name">Associate Professional in HR (aPHRi)</div><div class="t3-meta"><span class="t3-org">HRCL</span><span class="t3-type-badge spec">تخصصية</span></div><div class="t4-price-row"><span class="t4-price">2,800 ر</span><span class="t4-hrdf hrdf-yes">هدف ✓</span><span class="t4-count">2 طالبة</span></div></div>
+                <div class="t3-card" data-col4="biz2" data-hrdf="yes"><div class="t3-college-tag biz-tag">💼 الأعمال — التسويق</div><div class="t3-cert-name">Associate Certified Marketing Mgmt Professional (CMMP)</div><div class="t3-meta"><span class="t3-org">IIMP</span><span class="t3-type-badge spec">تخصصية</span></div><div class="t4-price-row"><span class="t4-price">843 ر</span><span class="t4-hrdf hrdf-yes">هدف ✓</span><span class="t4-count">3 طالبة</span></div></div>
+                <div class="t3-card" data-col4="biz2" data-hrdf="yes"><div class="t3-college-tag biz-tag">💼 الأعمال — الإدارة</div><div class="t3-cert-name">Certified Associate in Project Mgmt (CAPM)</div><div class="t3-meta"><span class="t3-org">PMI</span><span class="t3-type-badge spec">تخصصية</span></div><div class="t4-price-row"><span class="t4-price">2,000 ر</span><span class="t4-hrdf hrdf-yes">هدف ✓</span><span class="t4-count">2 طالبة</span></div></div>
+                <div class="t3-card" data-col4="biz2" data-hrdf="yes"><div class="t3-college-tag biz-tag">💼 الأعمال — المحاسبة</div><div class="t3-cert-name">Certificate in International Financial Reporting (CertIFR)</div><div class="t3-meta"><span class="t3-org">ACCA</span><span class="t3-type-badge spec">تخصصية</span></div><div class="t4-price-row"><span class="t4-price">950 ر</span><span class="t4-hrdf hrdf-yes">هدف ✓</span><span class="t4-count">3 طالبة</span></div></div>
+
+                <!-- التربية -->
+                <div class="t3-card" data-col4="edu2" data-hrdf="no"><div class="t3-college-tag edu-tag">📚 التربية — الطفولة المبكرة</div><div class="t3-cert-name">Infant-Toddler Certificate (CDA)</div><div class="t3-meta"><span class="t3-org">Child Care Education Institute</span><span class="t3-type-badge spec">تخصصية</span></div><div class="t4-price-row"><span class="t4-price">1,872 ر</span><span class="t4-hrdf hrdf-no">هدف ✗</span><span class="t4-count">4 طالبة</span></div></div>
+
+                <!-- العلوم -->
+                <div class="t3-card" data-col4="sci2" data-hrdf="no"><div class="t3-college-tag sci-tag">🔬 العلوم — المعلومات الحيوية</div><div class="t3-cert-name">Data Analysis for Genomics</div><div class="t3-meta"><span class="t3-org">Harvard</span><span class="t3-type-badge spec">تخصصية</span></div><div class="t4-price-row"><span class="t4-price">2,500 ر</span><span class="t4-hrdf hrdf-no">هدف ✗</span><span class="t4-count">2 طالبة</span></div></div>
+                <div class="t3-card" data-col4="sci2" data-hrdf="no"><div class="t3-college-tag sci-tag">🔬 العلوم — البيئية</div><div class="t3-cert-name">Environmental Management for Sustainability (EMS)</div><div class="t3-meta"><span class="t3-org">Univ. of Maryland</span><span class="t3-type-badge spec">تخصصية</span></div><div class="t4-price-row"><span class="t4-price">2,012 ر</span><span class="t4-hrdf hrdf-no">هدف ✗</span><span class="t4-count">2 طالبة</span></div></div>
+                <div class="t3-card" data-col4="sci2" data-hrdf="yes"><div class="t3-college-tag sci-tag">🔬 العلوم — الأحياء</div><div class="t3-cert-name">Certified Risk Management Officer (CRMO)</div><div class="t3-meta"><span class="t3-org">AGRC لندن</span><span class="t3-type-badge spec">تخصصية</span></div><div class="t4-price-row"><span class="t4-price">5,400 ر</span><span class="t4-hrdf hrdf-yes">هدف ✓</span><span class="t4-count">1 طالبة</span></div></div>
+                <div class="t3-card" data-col4="sci2" data-hrdf="yes"><div class="t3-college-tag sci-tag">🔬 العلوم — الرياضيات</div><div class="t3-cert-name">Mathematics for Machine Learning (MML)</div><div class="t3-meta"><span class="t3-org">DeepLearning.AI</span><span class="t3-type-badge spec">تخصصية</span></div><div class="t4-price-row"><span class="t4-price">180 ر</span><span class="t4-hrdf hrdf-yes">هدف ✓</span><span class="t4-count">20 طالبة</span></div></div>
+                <div class="t3-card" data-col4="sci2" data-hrdf="yes"><div class="t3-college-tag sci-tag">🔬 العلوم — الإحصاء</div><div class="t3-cert-name">Senior Big Data Analyst (SBDA)</div><div class="t3-meta"><span class="t3-org">SBDA</span><span class="t3-type-badge spec">تخصصية</span></div><div class="t4-price-row"><span class="t4-price">1,875 ر</span><span class="t4-hrdf hrdf-yes">هدف ✓</span><span class="t4-count">2 طالبة</span></div></div>
+                <div class="t3-card" data-col4="sci2" data-hrdf="yes"><div class="t3-college-tag sci-tag">🔬 العلوم — الرياضيات الاكتوارية</div><div class="t3-cert-name">Chartered Financial Analyst (CFA)</div><div class="t3-meta"><span class="t3-org">CFA Institute</span><span class="t3-type-badge spec">تخصصية</span></div><div class="t4-price-row"><span class="t4-price">13,000 ر</span><span class="t4-hrdf hrdf-yes">هدف ✓</span><span class="t4-count">1 طالبة</span></div></div>
+                <div class="t3-card" data-col4="sci2" data-hrdf="no"><div class="t3-college-tag sci-tag">🔬 العلوم — الفيزياء الطبية</div><div class="t3-cert-name">Magnetic Resonance Safety Officer (MRSO)</div><div class="t3-meta"><span class="t3-org">ABMRS</span><span class="t3-type-badge spec">تخصصية</span></div><div class="t4-price-row"><span class="t4-price">1,463 ر</span><span class="t4-hrdf hrdf-no">هدف ✗</span><span class="t4-count">2 طالبة</span></div></div>
+                <div class="t3-card" data-col4="sci2" data-hrdf="yes"><div class="t3-college-tag sci-tag">🔬 العلوم — الفيزياء</div><div class="t3-cert-name">Certified Entry-Level Python Programmer (PCEP)</div><div class="t3-meta"><span class="t3-org">R Learn</span><span class="t3-type-badge spec">تخصصية</span></div><div class="t4-price-row"><span class="t4-price">5,500 ر</span><span class="t4-hrdf hrdf-yes">هدف ✓</span><span class="t4-count">1 طالبة</span></div></div>
+                <div class="t3-card" data-col4="sci2" data-hrdf="yes"><div class="t3-college-tag sci-tag">🔬 العلوم — هندسة المواد</div><div class="t3-cert-name">Certified Measurement & Verification Professional (CMVP)</div><div class="t3-meta"><span class="t3-org">AEE</span><span class="t3-type-badge spec">تخصصية</span></div><div class="t4-price-row"><span class="t4-price">5,475 ر</span><span class="t4-hrdf hrdf-yes">هدف ✓</span><span class="t4-count">1 طالبة</span></div></div>
+                <div class="t3-card" data-col4="sci2" data-hrdf="no"><div class="t3-college-tag sci-tag">🔬 العلوم — الكيمياء</div><div class="t3-cert-name">OSHA 30 Hours — General Industry Safety</div><div class="t3-meta"><span class="t3-org">Green World Group</span><span class="t3-type-badge spec">تخصصية</span></div><div class="t4-price-row"><span class="t4-price">1,500 ر</span><span class="t4-hrdf hrdf-no">هدف ✗</span><span class="t4-count">2 طالبة</span></div></div>
+                <div class="t3-card" data-col4="sci2" data-hrdf="no"><div class="t3-college-tag sci-tag">🔬 العلوم — الكيمياء الصناعية</div><div class="t3-cert-name">NEBOSH IGC — International General Certificate</div><div class="t3-meta"><span class="t3-org">Green World Group</span><span class="t3-type-badge spec">تخصصية</span></div><div class="t4-price-row"><span class="t4-price">3,500 ر</span><span class="t4-hrdf hrdf-no">هدف ✗</span><span class="t4-count">1 طالبة</span></div></div>
+
+                <!-- الإنسانية -->
+                <div class="t3-card" data-col4="hum2" data-hrdf="no"><div class="t3-college-tag hum-tag">📖 الإنسانية — علم المعلومات</div><div class="t3-cert-name">COBIT Foundation — Governance of Enterprise IT</div><div class="t3-meta"><span class="t3-org">ISACA</span><span class="t3-type-badge spec">تخصصية</span></div><div class="t4-price-row"><span class="t4-price">2,000 ر</span><span class="t4-hrdf hrdf-no">هدف ✗</span><span class="t4-count">2 طالبة</span></div></div>
+                <div class="t3-card" data-col4="hum2" data-hrdf="yes"><div class="t3-college-tag hum-tag">📖 الإنسانية — الإرشاد السياحي</div><div class="t3-cert-name">Certified Guest Service Professional (CGSP)</div><div class="t3-meta"><span class="t3-org">American Hotel & Lodging</span><span class="t3-type-badge spec">تخصصية</span></div><div class="t4-price-row"><span class="t4-price">890 ر</span><span class="t4-hrdf hrdf-yes">هدف ✓</span><span class="t4-count">4 طالبة</span></div></div>
+                <div class="t3-card" data-col4="hum2" data-hrdf="no"><div class="t3-college-tag hum-tag">📖 الإنسانية — الصحافة الرقمية</div><div class="t3-cert-name">Google Data Analytics Professional Certificate</div><div class="t3-meta"><span class="t3-org">Google</span><span class="t3-type-badge supp">داعمة</span></div><div class="t4-price-row"><span class="t4-price">1,000 ر</span><span class="t4-hrdf hrdf-no">هدف ✗</span><span class="t4-count">4 طالبة</span></div></div>
+                <div class="t3-card" data-col4="hum2" data-hrdf="no"><div class="t3-college-tag hum-tag">📖 الإنسانية — الدراسات الإسلامية</div><div class="t3-cert-name">Certified Shari'a Adviser and Auditor (CSAA)</div><div class="t3-meta"><span class="t3-org">AAOIFI</span><span class="t3-type-badge spec">تخصصية</span></div><div class="t4-price-row"><span class="t4-price">4,501 ر</span><span class="t4-hrdf hrdf-no">هدف ✗</span><span class="t4-count">1 طالبة</span></div></div>
+                <div class="t3-card" data-col4="hum2" data-hrdf="yes"><div class="t3-college-tag hum-tag">📖 الإنسانية — اللغة العربية</div><div class="t3-cert-name">Microsoft Office Specialist (MOS)</div><div class="t3-meta"><span class="t3-org">Microsoft</span><span class="t3-type-badge supp">داعمة</span></div><div class="t4-price-row"><span class="t4-price">3,105 ر</span><span class="t4-hrdf hrdf-yes">هدف ✓</span><span class="t4-count">1 طالبة</span></div></div>
+                <div class="t3-card" data-col4="hum2" data-hrdf="no"><div class="t3-college-tag hum-tag">📖 الإنسانية — الجغرافيا</div><div class="t3-cert-name">Geographic Information Systems (GIS) Specialization</div><div class="t3-meta"><span class="t3-org">UC Davis / Esri</span><span class="t3-type-badge spec">تخصصية</span></div><div class="t4-price-row"><span class="t4-price">595 ر</span><span class="t4-hrdf hrdf-no">هدف ✗</span><span class="t4-count">4 طالبة</span></div></div>
+                <div class="t3-card" data-col4="hum2" data-hrdf="no"><div class="t3-college-tag hum-tag">📖 الإنسانية — الآثار والمتاحف</div><div class="t3-cert-name">Quality Management Certificate</div><div class="t3-meta"><span class="t3-org">Academy Certificate</span><span class="t3-type-badge supp">داعمة</span></div><div class="t4-price-row"><span class="t4-price">150 ر</span><span class="t4-hrdf hrdf-no">هدف ✗</span><span class="t4-count">20 طالبة</span></div></div>
+                <div class="t3-card" data-col4="hum2" data-hrdf="yes"><div class="t3-college-tag hum-tag">📖 الإنسانية — التاريخ</div><div class="t3-cert-name">Certificate in Data Analysis Using Microsoft Power BI</div><div class="t3-meta"><span class="t3-org">أكاديمية ثروة</span><span class="t3-type-badge supp">داعمة</span></div><div class="t4-price-row"><span class="t4-price">1,600 ر</span><span class="t4-hrdf hrdf-yes">هدف ✓</span><span class="t4-count">3 طالبة</span></div></div>
+
+                <!-- الحاسب -->
+                <div class="t3-card" data-col4="cs2" data-hrdf="no"><div class="t3-college-tag cs-tag">💻 الحاسب — علوم الحاسبات</div><div class="t3-cert-name">IBM Artificial Intelligence Professional Certificate</div><div class="t3-meta"><span class="t3-org">IBM</span><span class="t3-type-badge spec">تخصصية</span></div><div class="t4-price-row"><span class="t4-price">878 ر</span><span class="t4-hrdf hrdf-no">هدف ✗</span><span class="t4-count">5 طالبة</span></div></div>
+                <div class="t3-card" data-col4="cs2" data-hrdf="no"><div class="t3-college-tag cs-tag">💻 الحاسب — الذكاء الاصطناعي</div><div class="t3-cert-name">Google Advanced Data Analytics Professional Certificate</div><div class="t3-meta"><span class="t3-org">Google</span><span class="t3-type-badge spec">تخصصية</span></div><div class="t4-price-row"><span class="t4-price">1,125 ر</span><span class="t4-hrdf hrdf-no">هدف ✗</span><span class="t4-count">3 طالبة</span></div></div>
+                <div class="t3-card" data-col4="cs2" data-hrdf="no"><div class="t3-college-tag cs-tag">💻 الحاسب — هندسة البرمجيات</div><div class="t3-cert-name">Agile Project Management (AgilePM)</div><div class="t3-meta"><span class="t3-org">AgilePM</span><span class="t3-type-badge spec">تخصصية</span></div><div class="t4-price-row"><span class="t4-price">1,450 ر</span><span class="t4-hrdf hrdf-no">هدف ✗</span><span class="t4-count">3 طالبة</span></div></div>
+                <div class="t3-card" data-col4="cs2" data-hrdf="no"><div class="t3-college-tag cs-tag">💻 الحاسب — نظم المعلومات</div><div class="t3-cert-name">Certified Associate in Project Management (CAPM)</div><div class="t3-meta"><span class="t3-org">PMI</span><span class="t3-type-badge spec">تخصصية</span></div><div class="t4-price-row"><span class="t4-price">1,125 ر</span><span class="t4-hrdf hrdf-no">هدف ✗</span><span class="t4-count">3 طالبة</span></div></div>
+                <div class="t3-card" data-col4="cs2" data-hrdf="no"><div class="t3-college-tag cs-tag">💻 الحاسب — علم البيانات</div><div class="t3-cert-name">Microsoft Certified: Power BI Data Analyst Associate</div><div class="t3-meta"><span class="t3-org">Microsoft</span><span class="t3-type-badge spec">تخصصية</span></div><div class="t4-price-row"><span class="t4-price">315 ر</span><span class="t4-hrdf hrdf-no">هدف ✗</span><span class="t4-count">20 طالبة</span></div></div>
+                <div class="t3-card" data-col4="cs2" data-hrdf="no"><div class="t3-college-tag cs-tag">💻 الحاسب — تقنية المعلومات</div><div class="t3-cert-name">Microsoft Azure 900 — Fundamentals</div><div class="t3-meta"><span class="t3-org">Microsoft</span><span class="t3-type-badge spec">تخصصية</span></div><div class="t4-price-row"><span class="t4-price">375 ر</span><span class="t4-hrdf hrdf-no">هدف ✗</span><span class="t4-count">20 طالبة</span></div></div>
+                <div class="t3-card" data-col4="cs2" data-hrdf="no"><div class="t3-college-tag cs-tag">💻 الحاسب — إنترنت الأشياء</div><div class="t3-cert-name">HCIP-IoT Developer</div><div class="t3-meta"><span class="t3-org">Huawei</span><span class="t3-type-badge spec">تخصصية</span></div><div class="t4-price-row"><span class="t4-price">1,125 ر</span><span class="t4-hrdf hrdf-no">هدف ✗</span><span class="t4-count">3 طالبة</span></div></div>
+                <div class="t3-card" data-col4="cs2" data-hrdf="no"><div class="t3-college-tag cs-tag">💻 الحاسب — الأمن السيبراني</div><div class="t3-cert-name">CompTIA Security+</div><div class="t3-meta"><span class="t3-org">CompTIA</span><span class="t3-type-badge spec">تخصصية</span></div><div class="t4-price-row"><span class="t4-price">1,594 ر</span><span class="t4-hrdf hrdf-no">هدف ✗</span><span class="t4-count">3 طالبة</span></div></div>
+
+                <!-- الرياضة -->
+                <div class="t3-card" data-col4="sport2" data-hrdf="no"><div class="t3-college-tag sport-tag">🏅 الرياضة — علوم الرياضة</div><div class="t3-cert-name">Certified Personal Trainer (CPT)</div><div class="t3-meta"><span class="t3-org">NSCA</span><span class="t3-type-badge spec">تخصصية</span></div><div class="t4-price-row"><span class="t4-price">3,200 ر</span><span class="t4-hrdf hrdf-no">هدف ✗</span><span class="t4-count">1 طالبة</span></div></div>
+                <div class="t3-card" data-col4="sport2" data-hrdf="yes"><div class="t3-college-tag sport-tag">🏅 الرياضة — الإدارة الرياضية</div><div class="t3-cert-name">NEBOSH IGC — Occupational Health & Safety</div><div class="t3-meta"><span class="t3-org">NEBOSH</span><span class="t3-type-badge spec">تخصصية</span></div><div class="t4-price-row"><span class="t4-price">1,800 ر</span><span class="t4-hrdf hrdf-yes">هدف ✓</span><span class="t4-count">2 طالبة</span></div></div>
+                <div class="t3-card" data-col4="sport2" data-hrdf="no"><div class="t3-college-tag sport-tag">🏅 الرياضة — فسيولوجيا الجهد</div><div class="t3-cert-name">Certified Exercise Physiologist (ACSM-EP)</div><div class="t3-meta"><span class="t3-org">ACSM</span><span class="t3-type-badge spec">تخصصية</span></div><div class="t4-price-row"><span class="t4-price">1,300 ر</span><span class="t4-hrdf hrdf-no">هدف ✗</span><span class="t4-count">2 طالبة</span></div></div>
+
+                <!-- التصاميم والفنون -->
+                <div class="t3-card" data-col4="arts2" data-hrdf="no"><div class="t3-college-tag arts-tag">🎨 التصاميم — التصميم الجرافيكي</div><div class="t3-cert-name">Generative AI for Digital Marketing</div><div class="t3-meta"><span class="t3-org">IBM-Coursera</span><span class="t3-type-badge supp">داعمة</span></div><div class="t4-price-row"><span class="t4-price">190 ر</span><span class="t4-hrdf hrdf-no">هدف ✗</span><span class="t4-count">20 طالبة</span></div></div>
+                <div class="t3-card" data-col4="arts2" data-hrdf="yes"><div class="t3-college-tag arts-tag">🎨 التصاميم — التصميم الداخلي</div><div class="t3-cert-name">RIDQC — Interior Design Professional</div><div class="t3-meta"><span class="t3-org">ASID</span><span class="t3-type-badge spec">تخصصية</span></div><div class="t4-price-row"><span class="t4-price">3,750 ر</span><span class="t4-hrdf hrdf-yes">هدف ✓</span><span class="t4-count">1 طالبة</span></div></div>
+                <div class="t3-card" data-col4="arts2" data-hrdf="no"><div class="t3-college-tag arts-tag">🎨 التصاميم — تصميم الأزياء</div><div class="t3-cert-name">Digital Fashion Innovation</div><div class="t3-meta"><span class="t3-org">Coursera</span><span class="t3-type-badge spec">تخصصية</span></div><div class="t4-price-row"><span class="t4-price">190 ر</span><span class="t4-hrdf hrdf-no">هدف ✗</span><span class="t4-count">20 طالبة</span></div></div>
+                <div class="t3-card" data-col4="arts2" data-hrdf="no"><div class="t3-college-tag arts-tag">🎨 التصاميم — التصوير الضوئي</div><div class="t3-cert-name">Photography Basics & Beyond: From Smartphone to DSLR</div><div class="t3-meta"><span class="t3-org">Michigan State Univ.</span><span class="t3-type-badge spec">تخصصية</span></div><div class="t4-price-row"><span class="t4-price">190 ر</span><span class="t4-hrdf hrdf-no">هدف ✗</span><span class="t4-count">20 طالبة</span></div></div>
+                <div class="t3-card" data-col4="arts2" data-hrdf="no"><div class="t3-college-tag arts-tag">🎨 التصاميم — صناعة الأفلام</div><div class="t3-cert-name">The Art of Visual Storytelling Specialization</div><div class="t3-meta"><span class="t3-org">Univ. of Colorado Boulder</span><span class="t3-type-badge spec">تخصصية</span></div><div class="t4-price-row"><span class="t4-price">190 ر</span><span class="t4-hrdf hrdf-no">هدف ✗</span><span class="t4-count">20 طالبة</span></div></div>
+                <div class="t3-card" data-col4="arts2" data-hrdf="yes"><div class="t3-college-tag arts-tag">🎨 التصاميم — الفنون الأدائية</div><div class="t3-cert-name">Certified Business Professional - Marketing (CBP-M)</div><div class="t3-meta"><span class="t3-org">IBTA</span><span class="t3-type-badge supp">داعمة</span></div><div class="t4-price-row"><span class="t4-price">3,165 ر</span><span class="t4-hrdf hrdf-yes">هدف ✓</span><span class="t4-count">1 طالبة</span></div></div>
+                <div class="t3-card" data-col4="arts2" data-hrdf="no"><div class="t3-college-tag arts-tag">🎨 التصاميم — الفنون البصرية</div><div class="t3-cert-name">Business for Creatives</div><div class="t3-meta"><span class="t3-org">Aalto University</span><span class="t3-type-badge supp">داعمة</span></div><div class="t4-price-row"><span class="t4-price">656 ر</span><span class="t4-hrdf hrdf-no">هدف ✗</span><span class="t4-count">5 طالبة</span></div></div>
+                <div class="t3-card" data-col4="arts2" data-hrdf="no"><div class="t3-college-tag arts-tag">🎨 التصاميم — الإنتاج الموسيقي</div><div class="t3-cert-name">Building Your Audience for Music Professionals</div><div class="t3-meta"><span class="t3-org">Grammy Go / Coursera</span><span class="t3-type-badge spec">تخصصية</span></div><div class="t4-price-row"><span class="t4-price">190 ر</span><span class="t4-hrdf hrdf-no">هدف ✗</span><span class="t4-count">20 طالبة</span></div></div>
+
+                <!-- الهندسة -->
+                <div class="t3-card" data-col4="eng2" data-hrdf="no"><div class="t3-college-tag eng-tag">🏗️ الهندسة — الهندسة الطبية الحيوية</div><div class="t3-cert-name">Certified Associate in Healthcare Information Systems (CAHIMS)</div><div class="t3-meta"><span class="t3-org">HIMSS</span><span class="t3-type-badge spec">تخصصية</span></div><div class="t4-price-row"><span class="t4-price">1,422 ر</span><span class="t4-hrdf hrdf-no">هدف ✗</span><span class="t4-count">2 طالبة</span></div></div>
+                <div class="t3-card" data-col4="eng2" data-hrdf="no"><div class="t3-college-tag eng-tag">🏗️ الهندسة — الاتصالات</div><div class="t3-cert-name">Certified Wireless Network Administrator (CWNA)</div><div class="t3-meta"><span class="t3-org">CWNP</span><span class="t3-type-badge spec">تخصصية</span></div><div class="t4-price-row"><span class="t4-price">844 ر</span><span class="t4-hrdf hrdf-no">هدف ✗</span><span class="t4-count">4 طالبة</span></div></div>
+                <div class="t3-card" data-col4="eng2" data-hrdf="yes"><div class="t3-college-tag eng-tag">🏗️ الهندسة — الصناعية والنظم</div><div class="t3-cert-name">IASSC Certified Green Belt (ICGB)</div><div class="t3-meta"><span class="t3-org">PeopleCert</span><span class="t3-type-badge spec">تخصصية</span></div><div class="t4-price-row"><span class="t4-price">1,106 ر</span><span class="t4-hrdf hrdf-yes">هدف ✓</span><span class="t4-count">3 طالبة</span></div></div>
+                <div class="t3-card" data-col4="eng2" data-hrdf="no"><div class="t3-college-tag eng-tag">🏗️ الهندسة — الهندسة السريرية</div><div class="t3-cert-name">Certified Biomedical Equipment Technician (CBET)</div><div class="t3-meta"><span class="t3-org">ACCE</span><span class="t3-type-badge spec">تخصصية</span></div><div class="t4-price-row"><span class="t4-price">1,782 ر</span><span class="t4-hrdf hrdf-no">هدف ✗</span><span class="t4-count">2 طالبة</span></div></div>
+                <div class="t3-card" data-col4="eng2" data-hrdf="yes"><div class="t3-college-tag eng-tag">🏗️ الهندسة — الطاقة المتجددة</div><div class="t3-cert-name">PV Planner/Designer Certification (SS-PVD)</div><div class="t3-meta"><span class="t3-org">KACARE</span><span class="t3-type-badge spec">تخصصية</span></div><div class="t4-price-row"><span class="t4-price">5,625 ر</span><span class="t4-hrdf hrdf-yes">هدف ✓</span><span class="t4-count">1 طالبة</span></div></div>
+                <div class="t3-card" data-col4="eng2" data-hrdf="no"><div class="t3-college-tag eng-tag">🏗️ الهندسة — هندسة الفضاء والطيران</div><div class="t3-cert-name">Certified Automation Professional (CAP)</div><div class="t3-meta"><span class="t3-org">ISA</span><span class="t3-type-badge spec">تخصصية</span></div><div class="t4-price-row"><span class="t4-price">1,752 ر</span><span class="t4-hrdf hrdf-no">هدف ✗</span><span class="t4-count">2 طالبة</span></div></div>
+                <div class="t3-card" data-col4="eng2" data-hrdf="no"><div class="t3-college-tag eng-tag">🏗️ الهندسة — الميكاترونكس</div><div class="t3-cert-name">FAA 107 — Operation of Unmanned Aircraft Systems</div><div class="t3-meta"><span class="t3-org">GACA</span><span class="t3-type-badge spec">تخصصية</span></div><div class="t4-price-row"><span class="t4-price">1,876 ر</span><span class="t4-hrdf hrdf-no">هدف ✗</span><span class="t4-count">2 طالبة</span></div></div>
+
+                <!-- القانون -->
+                <div class="t3-card" data-col4="law2" data-hrdf="yes"><div class="t3-college-tag law-tag">⚖️ القانون</div><div class="t3-cert-name">Certified Insurance Compliance Specialist (CICS)</div><div class="t3-meta"><span class="t3-org">The Financial Academy</span><span class="t3-type-badge spec">تخصصية</span></div><div class="t4-price-row"><span class="t4-price">1,600 ر</span><span class="t4-hrdf hrdf-yes">هدف ✓</span><span class="t4-count">3 طالبة</span></div></div>
+
+                <!-- اللغات -->
+                <div class="t3-card" data-col4="lang2" data-hrdf="yes"><div class="t3-college-tag lang-tag">🗣️ اللغات — اللغة الإنجليزية</div><div class="t3-cert-name">Certified Translator (NATTI)</div><div class="t3-meta"><span class="t3-org">NATTI</span><span class="t3-type-badge spec">تخصصية</span></div><div class="t4-price-row"><span class="t4-price">2,270 ر</span><span class="t4-hrdf hrdf-yes">هدف ✓</span><span class="t4-count">3 طالبة</span></div></div>
+
+            </div><!-- end t4Grid -->
+
+            <!-- Summary strip -->
+            <div class="t3-summary" style="margin-top:10px;">
+                <div class="t3-sum-item"><span class="t3-sum-n">62</span><span class="t3-sum-l">إجمالي الشهادات المعتمدة</span></div>
+                <div class="t3-sum-sep"></div>
+                <div class="t3-sum-item"><span class="t3-sum-n" style="color:#15A186">32</span><span class="t3-sum-l">مدعومة من هدف</span></div>
+                <div class="t3-sum-sep"></div>
+                <div class="t3-sum-item"><span class="t3-sum-n" style="color:#c0392b">30</span><span class="t3-sum-l">غير مدعومة من هدف</span></div>
+                <div class="t3-sum-sep"></div>
+                <div class="t3-sum-item"><span class="t3-sum-n" style="color:#086e62">11</span><span class="t3-sum-l">كلية مشمولة</span></div>
+            </div>
+        </div>
+
+        <!-- SLIDE 13: Implementation Tracks -->
+        <div class="slide" id="slide-13">
+            <h2 class="slide-title"><span class="title-icon">🔄</span>مسارات تنفيذ المشروع</h2>
+            <div class="grid-2">
+                <div class="track-card track-a">
+                    <h3>💰 أولاً: مسار التعويض بعد الاجتياز</h3>
+                    <p style="font-size:0.8rem; color:var(--muted); margin-bottom:12px;">للطالبات اللواتي أتممن الحصول على الشهادة بتمويل ذاتي.</p>
+                    <ul class="track-steps">
+                        <li><span class="step-num">1</span><span>الإعلان الرسمي عبر القنوات الجامعية بالضوابط والشروط.</span></li>
+                        <li><span class="step-num">2</span><span>تقديم الطالبة لطلب التعويض مع إثبات اجتياز الاختبار المهني.</span></li>
+                        <li><span class="step-num">3</span><span>التحقق المؤسسي من مطابقة الشهادة للمعايير المعتمدة.</span></li>
+                        <li><span class="step-num">4</span><span>اعتماد الصرف المالي ضمن السقف المحدد.</span></li>
+                        <li><span class="step-num">5</span><span>تحويل مبلغ التعويض للحساب البنكي (الآيبان) مباشرةً.</span></li>
+                    </ul>
+                    <p style="font-size:0.75rem; color:var(--muted); margin-top:8px;">⚠ الشهادة يجب ألا يتجاوز تاريخ اعتمادها 6 أشهر | الفواتير باسم الطالبة إلزامي</p>
+                </div>
+                <div class="track-card track-b">
+                    <h3>🎓 ثانياً: مسار الدعم المسبق قبل الاختبار</h3>
+                    <p style="font-size:0.8rem; color:#0a6b5a; margin-bottom:12px;">للطالبات الأكفأ الأكثر جاهزية — لضمان نسب نجاح عالية.</p>
+                    <ul class="track-steps">
+                        <li><span class="step-num">1</span><span>الإعلان عن المسار وتحديد الكليات والتخصصات المشمولة.</span></li>
+                        <li><span class="step-num">2</span><span>تنظيم ورش تهيئة بالتعاون مع أعضاء هيئة تدريس حاصلين على الشهادات.</span></li>
+                        <li><span class="step-num">3</span><span>اختبار تهيئة محاكي (Mock Test) يعكس طبيعة الاختبار الفعلي.</span></li>
+                        <li><span class="step-num">4</span><span>ترشيح الطالبات المجتازات <strong>بنسبة ≥ 75%</strong> من جميع الشروط.</span></li>
+                        <li><span class="step-num">5</span><span>دفع رسوم الاختبار المهني للطالبات المرشحات من الجامعة مباشرةً.</span></li>
+                    </ul>
+                    <p style="font-size:0.75rem; color:#0a6b5a; margin-top:8px;">شرط GPA ≥ 4/5 | أكملت ≥50% من برنامجها | توقيع نموذج التزام بأداء الاختبار خلال 6 أشهر</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 14: Governance -->
+        <div class="slide" id="slide-14">
+            <h2 class="slide-title"><span class="title-icon">⚙️</span>الحوكمة والهيكل التنظيمي</h2>
+            <div class="grid-3">
+                <div class="gov-card">
+                    <div class="g-icon">🏛️</div>
+                    <h3>اللجنة الاستشارية العليا</h3>
+                    <p>إقرار السياسات والمعايير المؤسسية. اعتماد قائمة الشهادات المهنية. مراجعة KPIs والتقارير الدورية. التنسيق مع مجلس الجامعة والشراكات الخارجية.</p>
+                </div>
+                <div class="gov-card">
+                    <div class="g-icon">📥</div>
+                    <h3>لجنة استقبال الطلبات والتواصل</h3>
+                    <p>الإعلان عن المشروع وضوابطه. استقبال الطلبات والتحقق منها. إعداد قوائم الترشيح. التواصل مع الطالبات وإعداد التقارير الإحصائية.</p>
+                </div>
+                <div class="gov-card">
+                    <div class="g-icon">💸</div>
+                    <h3>لجنة المعالجة المالية والصرف</h3>
+                    <p>استلام الطلبات المعتمدة. مراجعة المستندات المالية (فاتورة، هوية، آيبان). إعداد أوامر الصرف. تنفيذ التحويلات البنكية والتقارير المالية.</p>
+                </div>
+            </div>
+            <div class="card" style="margin-top: 16px;">
+                <h3>🔐 الضبط المالي ومسار التدقيق</h3>
+                <p style="font-size:0.82rem;">يُدار مسار الصرف إلكترونياً بالكامل عبر نظام الكتروني بالجامعة (يُقترح سموق) لضمان سجل رقمي دقيق. تُجري إدارة المراجعة الداخلية مراجعات فصلية وسنوية للتحقق من كفاءة الصرف وسلامة الإجراءات.</p>
+            </div>
+        </div>
+
+        <!-- SLIDE 15: Budget — accurate from Table 8 -->
+        <div class="slide" id="slide-15">
+            <h2 class="slide-title"><span class="title-icon">💰</span>الميزانية المقترحة</h2>
+            <div class="context-label">💡 إجمالي الميزانية السنوية: <strong>200,000 ريال سعودي</strong> — قابلة للتعديل حسب ملف الإكسل المرفق</div>
+            <div class="budget-bar">
+                <div class="bb-seg bb-77">
+                    <div class="bp">77%</div>
+                    <div class="bl">تعويضات الطالبات</div>
+                </div>
+                <div class="bb-seg bb-15">
+                    <div class="bp">15%</div>
+                    <div class="bl">شراكات وإعداد</div>
+                </div>
+                <div class="bb-seg bb-8">
+                    <div class="bp">8%</div>
+                    <div class="bl">اختبارات تجريبية</div>
+                </div>
+            </div>
+            <div class="budget-breakdown">
+                <div class="budget-item green-b">
+                    <div class="b-pct">77%</div>
+                    <div class="b-val">≈ 154,000 ريال</div>
+                    <div class="b-desc"><strong>أ. تعويض الطالبات المجتازات</strong> — دعم مالي مباشر لرسوم الاختبارات المهنية وشهادات الاعتماد بعد التحقق من الاجتياز.</div>
+                </div>
+                <div class="budget-item gold-b">
+                    <div class="b-pct">15%</div>
+                    <div class="b-val">≈ 30,000 ريال</div>
+                    <div class="b-desc"><strong>ب. الشراكات والإعداد المهني</strong> — اتفاقيات مع مزودي تدريب معتمدين (FutureX, Coursera, LinkedIn Learning) وبرامج تحضيرية.</div>
+                </div>
+                <div class="budget-item grey-b">
+                    <div class="b-pct">8%</div>
+                    <div class="b-val">≈ 16,000 ريال</div>
+                    <div class="b-desc"><strong>ج. الاختبارات التجريبية</strong> — تصميم وتنفيذ اختبارات محاكاة (Mock Exams) لقياس جاهزية الطالبات قبل الاختبار الرسمي.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 16: Timeline -->
+        <div class="slide" id="slide-16">
+            <h2 class="slide-title"><span class="title-icon">📅</span>الخطة الزمنية التنفيذية — 12 شهراً</h2>
+
+            <div class="timeline-wrap">
+
+                <div class="tl-card phase-1">
+                    <div class="tl-header">
+                        <div class="tl-icon-wrap">⚙️</div>
+                        <span class="tl-period-badge">أشهر 1–2</span>
+                    </div>
+                    <div class="tl-phase-title">مرحلة الإعداد</div>
+                    <div class="tl-desc">تهيئة الإطار التنظيمي والتشغيلي. اعتماد السياسات وقائمة الشهادات ومسارات الدعم. تجهيز ورش تدريبية واختبارات محاكاة.</div>
+                    <div class="tl-dots"><div class="tl-dot"></div><div class="tl-dot" style="opacity:0.4"></div><div class="tl-dot" style="opacity:0.2"></div></div>
+                </div>
+
+                <div class="tl-card phase-2">
+                    <div class="tl-header">
+                        <div class="tl-icon-wrap">📢</div>
+                        <span class="tl-period-badge">شهر 3</span>
+                    </div>
+                    <div class="tl-phase-title">الإطلاق الرسمي</div>
+                    <div class="tl-desc">الإعلان عبر القنوات الجامعية، إطلاق ضوابط التقديم، عقد ورش تعريفية لتجهيز الطالبات وتعريفهن بمسارات الدعم.</div>
+                    <div class="tl-dots"><div class="tl-dot"></div><div class="tl-dot"></div><div class="tl-dot" style="opacity:0.3"></div></div>
+                </div>
+
+                <div class="tl-card phase-3">
+                    <div class="tl-header">
+                        <div class="tl-icon-wrap">🎓</div>
+                        <span class="tl-period-badge">أشهر 4–8</span>
+                    </div>
+                    <div class="tl-phase-title">التنفيذ والتأهيل</div>
+                    <div class="tl-desc">استقبال الطلبات ومعالجتها، ورش التهيئة، تنفيذ اختبارات Mock، صرف دعم مسار الدعم المسبق بصورة مستمرة.</div>
+                    <div class="tl-dots"><div class="tl-dot"></div><div class="tl-dot"></div><div class="tl-dot"></div></div>
+                </div>
+
+                <div class="tl-card phase-4">
+                    <div class="tl-header">
+                        <div class="tl-icon-wrap">✅</div>
+                        <span class="tl-period-badge">أشهر 5–10</span>
+                    </div>
+                    <div class="tl-phase-title">التحقق والصرف</div>
+                    <div class="tl-desc">متابعة اجتياز الطالبات وصرف التعويضات. التحقق الإلكتروني من صحة الشهادات. إعداد تقارير دورية للجان المختصة.</div>
+                    <div class="tl-dots"><div class="tl-dot"></div><div class="tl-dot"></div><div class="tl-dot"></div></div>
+                </div>
+
+                <div class="tl-card phase-5">
+                    <div class="tl-header">
+                        <div class="tl-icon-wrap">📋</div>
+                        <span class="tl-period-badge">أشهر 9–10</span>
+                    </div>
+                    <div class="tl-phase-title">المتابعة والجرد</div>
+                    <div class="tl-desc">الجرد نصف السنوي لكل دفعة، توثيق العمليات إلكترونياً، مطابقة البيانات المالية وإعداد تقارير إحصائية شاملة.</div>
+                    <div class="tl-dots"><div class="tl-dot"></div><div class="tl-dot"></div><div class="tl-dot" style="opacity:0.5"></div></div>
+                </div>
+
+                <div class="tl-card phase-6">
+                    <div class="tl-header">
+                        <div class="tl-icon-wrap">🚀</div>
+                        <span class="tl-period-badge">أشهر 11–12</span>
+                    </div>
+                    <div class="tl-phase-title">التقييم والتطوير</div>
+                    <div class="tl-desc">تحليل مؤشرات الأداء KPIs، إعداد التقرير الختامي للدورة، تحديث قوائم الشهادات، التوصية بالتوسع للدورة التالية.</div>
+                    <div class="tl-dots"><div class="tl-dot"></div><div class="tl-dot"></div></div>
+                </div>
+
+            </div>
+
+            <!-- Timeline footer strip -->
+            <div style="display:flex; align-items:center; gap:0; margin-top:14px; background:white; border:1px solid var(--border); border-radius:10px; overflow:hidden;">
+                <div style="flex:2; background:linear-gradient(90deg,#086e62,#0d9b8a); color:white; padding:8px 14px; font-size:0.72rem; font-weight:700; text-align:center;">إعداد وإطلاق<br><span style="font-weight:400;opacity:0.85">أشهر 1–3</span></div>
+                <div style="width:1px;height:40px;background:rgba(255,255,255,0.3)"></div>
+                <div style="flex:5; background:linear-gradient(90deg,#0d9b8a,#1ab5a0); color:white; padding:8px 14px; font-size:0.72rem; font-weight:700; text-align:center;">تنفيذ وصرف مستمر<br><span style="font-weight:400;opacity:0.85">أشهر 4–10</span></div>
+                <div style="width:1px;height:40px;background:rgba(255,255,255,0.3)"></div>
+                <div style="flex:2; background:linear-gradient(90deg,#1ab5a0,#15A186); color:white; padding:8px 14px; font-size:0.72rem; font-weight:700; text-align:center;">تقييم وتطوير<br><span style="font-weight:400;opacity:0.85">أشهر 11–12</span></div>
+            </div>
+        </div>
+
+        <!-- SLIDE 17: Recommendations — accurate from document -->
+        <div class="slide" id="slide-17">
+            <h2 class="slide-title"><span class="title-icon">📌</span>التوصيات والقرار المطلوب</h2>
+            <div class="rec-item">
+                <div class="rec-num">1</div>
+                <div class="rec-text">
+                    <strong>اعتماد المشروع من مجلس الجامعة</strong>
+                    <p>اعتماده كمبادرة مؤسسية استراتيجية مرتبطة مباشرة بمؤشرات الأداء الرئيسة للجامعة ومستهدفات رؤية 2030.</p>
+                </div>
+            </div>
+            <div class="rec-item">
+                <div class="rec-num">2</div>
+                <div class="rec-text">
+                    <strong>تفويض وكالة الجامعة للشؤون الأكاديمية بالإشراف والتنفيذ</strong>
+                    <p>من خلال مركز الدعم الطلابي والمهني بصفته الجهة التنفيذية المعنية بمتابعة مراحل التنفيذ.</p>
+                </div>
+            </div>
+            <div class="rec-item">
+                <div class="rec-num">3</div>
+                <div class="rec-text">
+                    <strong>مراجعة دورية لقائمة الشهادات المهنية المؤهلة</strong>
+                    <p>تحديث القائمة سنوياً بالتشاور مع ممثلات الكليات، والتنسيق مع HRDF وجهات الاعتماد الدولية.</p>
+                </div>
+            </div>
+            <div class="rec-item">
+                <div class="rec-num">4</div>
+                <div class="rec-text">
+                    <strong>دمج المشروع في الخطط التشغيلية السنوية</strong>
+                    <p>إدراج المشروع ضمن خطط الكليات ووكالة الجامعة للشؤون الأكاديمية وعمادة شؤون الطالبات.</p>
+                </div>
+            </div>
+            <div class="rec-item">
+                <div class="rec-num">5</div>
+                <div class="rec-text">
+                    <strong>تخصيص التمويل السنوي بما يضمن الاستدامة</strong>
+                    <p>يُوصى بتخصيص <strong>250,000 ريال سنوياً</strong> لضمان الاستدامة حتى عام 2030م (مقابل 200,000 للمرحلة الأولى).</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 19: Closing -->
+        <div class="closing-slide" id="slide-18">
+            <h1 style="font-size:2.8rem;">شكرًا لكم</h1>
+            <p style="font-size:1.15rem; margin-bottom:24px;">وكالة الشؤون التعليمية</p>
+            <div class="closing-quote">"استثمار في الكفاءات الوطنية.. لمستقبل مهني واعد"</div>
+        </div>
+
+    </div><!-- end slide-area -->
+
+    <!-- BOTTOM NAV -->
+    <div class="bottom-nav">
+        <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)">&#8249;</button>
+        <div class="progress-track">
+            <div class="progress-fill" id="progressFill" style="width: 5.56%"></div>
+        </div>
+        <div class="slide-pills" id="pillsContainer"></div>
+        <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">&#8250;</button>
+    </div>
+
+</div>
+
+<script>
+    let currentSlide = 1;
+    const totalSlides = 18;
+
+    // Build pills
+    const pillsContainer = document.getElementById('pillsContainer');
+    for (let i = 1; i <= totalSlides; i++) {
+        const pill = document.createElement('div');
+        pill.className = 'pill' + (i === 1 ? ' active' : '');
+        pill.onclick = () => showSlide(i);
+        pill.title = `شريحة ${i}`;
+        pillsContainer.appendChild(pill);
+    }
+
+    function showSlide(n) {
+        document.getElementById('slide-' + currentSlide).classList.remove('active');
+        currentSlide = n;
+        document.getElementById('slide-' + currentSlide).classList.add('active');
+        document.getElementById('slideCounter').textContent = `${currentSlide} / ${totalSlides}`;
+        document.getElementById('prevBtn').disabled = (currentSlide === 1);
+        document.getElementById('nextBtn').disabled = (currentSlide === totalSlides);
+        document.getElementById('progressFill').style.width = ((currentSlide / totalSlides) * 100) + '%';
+
+        // Update pills
+        document.querySelectorAll('.pill').forEach((p, i) => {
+            p.classList.toggle('active', i + 1 === currentSlide);
+        });
+    }
+
+    function changeSlide(dir) {
+        const next = currentSlide + dir;
+        if (next >= 1 && next <= totalSlides) showSlide(next);
+    }
+
+    // Table 4 filter
+    let t4HrdfActive = false;
+    function filterT4(col, btn) {
+        document.querySelectorAll('#t4Filters .t3-btn:not(.t3-btn-hrdf)').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        applyT4Filter(col, t4HrdfActive);
+    }
+    function filterT4HRdf(btn) {
+        t4HrdfActive = !t4HrdfActive;
+        btn.classList.toggle('active-hrdf', t4HrdfActive);
+        btn.textContent = t4HrdfActive ? 'هدف فقط ✓' : 'دعم هدف ✓';
+        const activeColBtn = document.querySelector('#t4Filters .t3-btn.active:not(.t3-btn-hrdf)');
+        const col = activeColBtn ? activeColBtn.getAttribute('onclick').match(/'([^']+)'/)?.[1] || 'all' : 'all';
+        applyT4Filter(col, t4HrdfActive);
+    }
+    function applyT4Filter(col, hrdfOnly) {
+        document.querySelectorAll('#t4Grid .t3-card').forEach(card => {
+            const colMatch = col === 'all' || card.dataset.col4 === col;
+            const hrdfMatch = !hrdfOnly || card.dataset.hrdf === 'yes';
+            if (colMatch && hrdfMatch) card.classList.remove('hidden');
+            else card.classList.add('hidden');
+        });
+    }
+    window.filterT4 = filterT4;
+    window.filterT4HRdf = filterT4HRdf;
+
+    // Table 3 filter
+    function filterT3(col, btn) {
+        document.querySelectorAll('.t3-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        document.querySelectorAll('.t3-card').forEach(card => {
+            if (col === 'all' || card.dataset.col === col) {
+                card.classList.remove('hidden');
+            } else {
+                card.classList.add('hidden');
+            }
+        });
+    }
+    window.filterT3 = filterT3;
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight' || e.key === 'ArrowUp') changeSlide(-1);
+        if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') changeSlide(1);
+    });
+
+    showSlide(1);
+</script>
+</body>
+</html>
